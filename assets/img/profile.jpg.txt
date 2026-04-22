@@ -1,0 +1,1 @@
+Placeholder for profile image. Replace with actual JPG of your photo (500x500 recommended). For demo, use a stock photo URL temporarily in HTML if needed.
