@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Pengalaman Projek - Capstone Inorganic Waste App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+        }
+
+        .shadow-soft {
+            box-shadow: 0 10px 30px rgba(2, 6, 23, .08);
+        }
+
+        /* Gallery card */
+        .gallery-card {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(2, 6, 23, .13);
+        }
+
+        .gallery-card img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 9 / 19;
+            object-fit: cover;
+            object-position: top;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Lightbox */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        #lightbox.hidden {
+            display: none;
+        }
+
+        #lightbox-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.78);
+            backdrop-filter: blur(5px);
+        }
+
+        #lightbox-panel {
+            position: relative;
+            z-index: 1;
+            background: #fff;
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 24px 64px rgba(2, 6, 23, .28);
+            display: flex;
+            flex-direction: column;
+            width: min(420px, calc(100vw - 32px));
+            max-height: 88vh;
+            overflow: hidden;
+        }
+
+        #lightbox-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        #lightbox-body {
+            overflow-y: auto;
+            flex: 1;
+            background: #f8fafc;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #lightbox-img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: calc(88vh - 110px);
+            border-radius: 14px;
+            object-fit: contain;
+        }
+
+        #lightbox-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-top: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .lb-nav-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #f1f5f9;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+            color: #475569;
+        }
+
+        .lb-nav-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .lb-nav-btn:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+
+    <!-- Navbar mini -->
+    <nav class="sticky top-0 z-50 bg-white/80 border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="../../../../index.html" class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-soft">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </span>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Kembali</p>
+                    <p class="font-extrabold text-slate-800">Portofolio</p>
+                </div>
+            </a>
+
+            <div class="hidden sm:flex items-center gap-3 text-sm font-bold">
+                <a href="#ringkasan" class="text-slate-600 hover:text-blue-600">Ringkasan</a>
+                <a href="#fitur" class="text-slate-600 hover:text-blue-600">Fitur</a>
+                <a href="#kontribusi" class="text-slate-600 hover:text-blue-600">Kontribusi</a>
+                <a href="#galeri" class="text-slate-600 hover:text-blue-600">Galeri</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50"></div>
+        <div class="relative max-w-6xl mx-auto px-6 py-12">
+            <div class="grid lg:grid-cols-3 gap-8 items-start">
+                <div class="lg:col-span-2">
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Capstone Projek</p>
+                    <h1 class="mt-3 text-4xl md:text-5xl font-extrabold leading-tight text-slate-900">
+                        Inorganic Waste App
+                    </h1>
+
+                    <p class="mt-4 text-slate-600 text-lg leading-relaxed">
+                        Projek ini merupakan hasil mengikuti program <span class="font-extrabold">Bangkit Academy 2023</span> sebagai
+                        <span class="font-extrabold">mobile developer</span>. Dalam tim yang beranggotakan <span class="font-extrabold">6 orang</span>,
+                        kami membuat aplikasi yang bertujuan memberi tutorial pembuatan benda kerajinan dari
+                        bahan plastik berdasarkan benda yang di-scan di aplikasi.
+                    </p>
+
+                    <p class="mt-4 text-slate-600 text-lg leading-relaxed">
+                        Contoh: ketika pengguna memindai <span class="font-extrabold">tas plastik</span>, maka aplikasi akan menampilkan
+                        <span class="font-extrabold">list tutorial</span> kerajinan yang dapat dibuat dari tas plastik tersebut.
+                    </p>
+
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            <i class="fa-solid fa-mobile-screen-button text-blue-600 mr-2"></i>Mobile App
+                        </span>
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            <i class="fa-solid fa-qrcode text-purple-600 mr-2"></i>Scan → Rekomendasi Tutorial
+                        </span>
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            <i class="fa-solid fa-diagram-project text-slate-700 mr-2"></i>UI Tutorial Kerajinan
+                        </span>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-soft">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Tim Capstone</p>
+                                <h2 class="text-lg font-extrabold text-slate-900">6 Mobile Developers</h2>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 space-y-3 text-sm">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-graduation-cap text-purple-600"></i>
+                                <span class="text-slate-700 font-bold">Bangkit Academy 2023</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-recycle text-green-600"></i>
+                                <span class="text-slate-700 font-bold">Inovasi dari Limbah Plastik</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-wand-magic-sparkles text-amber-600"></i>
+                                <span class="text-slate-700 font-bold">Rekomendasi berdasarkan hasil scan</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 grid grid-cols-2 gap-3">
+                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Peran</p>
+                                <p class="mt-1 font-extrabold text-slate-900">Mobile Developer</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Output</p>
+                                <p class="mt-1 font-extrabold text-slate-900">Tutorial Kerajinan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Gallery -->
+    <section id="galeri" class="py-10">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex items-end justify-between gap-6">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Galeri Screenshot</p>
+                    <h2 class="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">Tampilan Inorganic Waste App</h2>
+                </div>
+                <p class="text-slate-500 text-sm italic">Klik gambar untuk melihat panel full</p>
+            </div>
+
+            <!-- Lightbox -->
+            <div id="lightbox" class="hidden">
+                <div id="lightbox-overlay" onclick="closeLightbox()"></div>
+                <div id="lightbox-panel">
+                    <div id="lightbox-header">
+                        <p id="lightbox-title" class="font-bold text-slate-800 text-sm"></p>
+                        <button class="lb-nav-btn" onclick="closeLightbox()" aria-label="Tutup">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div id="lightbox-body">
+                        <img id="lightbox-img" src="" alt="" />
+                    </div>
+                    <div id="lightbox-footer">
+                        <button id="lb-prev" class="lb-nav-btn" onclick="navigateLightbox(-1)" aria-label="Sebelumnya">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span id="lb-counter" class="text-xs font-bold text-slate-500"></span>
+                        <button id="lb-next" class="lb-nav-btn" onclick="navigateLightbox(1)" aria-label="Berikutnya">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gallery" class="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Beranda">
+                    <div class="overflow-hidden">
+                        <img src="./img/beranda.jpg" alt="Beranda" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Beranda</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Ringkasan & akses awal</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Scan Benda Plastik">
+                    <div class="overflow-hidden">
+                        <img src="./img/scan benda plastik.jpg" alt="Scan Benda Plastik" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Scan Benda Plastik</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Identifikasi objek untuk rekomendasi</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="List Tutorial">
+                    <div class="overflow-hidden">
+                        <img src="./img/list benda kerajinan yang bisa dibuat dari benda plastik yang discan.jpg"
+                            alt="List Tutorial" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">List Tutorial</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Tutorial kerajinan dari hasil scan</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Tutorial Pembuatan">
+                    <div class="overflow-hidden">
+                        <img src="./img/tutorial pembuatan benda kerajinan benda plastik.jpg"
+                            alt="Tutorial Pembuatan" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Tutorial Pembuatan</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Langkah-langkah kerajinan</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Tutorial Penggunaan Aplikasi">
+                    <div class="overflow-hidden">
+                        <img src="./img/tutorial penggunaan aplikasi.jpeg" alt="Tutorial Penggunaan Aplikasi" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Tutorial Penggunaan</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Panduan penggunaan dari awal</p>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ringkasan + Fitur -->
+    <section id="ringkasan" class="py-14">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Ringkasan Projek</p>
+                    <h2 class="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">
+                        Scan Plastik → Rekomendasi Tutorial Kerajinan
+                    </h2>
+
+                    <div class="mt-5 bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                        <ul class="space-y-4 text-slate-700">
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                                <span>
+                                    Inorganic Waste App adalah hasil dari <span class="font-extrabold">Bangkit Academy 2023</span>
+                                    sebagai <span class="font-extrabold">mobile developer</span>.
+                                </span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                                <span>
+                                    Tim beranggotakan <span class="font-extrabold">6 orang</span> membangun aplikasi yang
+                                    menuntun pengguna membuat kerajinan dari plastik.
+                                </span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                                <span>
+                                    Alur utamanya: <span class="font-extrabold">scan benda plastik</span> → muncul
+                                    <span class="font-extrabold">list tutorial</span> kerajinan yang sesuai.
+                                </span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                                <span>
+                                    Contoh skenario: ketika yang discan adalah <span class="font-extrabold">tas plastik</span>,
+                                    aplikasi menampilkan tutorial benda kerajinan yang bisa dibuat dari tas plastik.
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-5 flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            Target: Tutorial Kerajinan
+                        </span>
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            Mekanisme: Scan → Rekomendasi
+                        </span>
+                    </div>
+                </div>
+
+                <div id="fitur" class="scroll-mt-24">
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Fitur Utama</p>
+                    <h3 class="mt-2 text-2xl font-extrabold text-slate-900">Komponen yang dibangun dalam aplikasi</h3>
+
+                    <div class="mt-5 space-y-4">
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-house"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Beranda & Akses Awal</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Memberikan ringkasan dan pintasan menuju alur scan serta tutorial.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-qrcode"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Scan Benda Plastik</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Mendeteksi jenis benda yang akan menjadi dasar rekomendasi tutorial kerajinan.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-list"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">List Tutorial Berdasarkan Hasil Scan</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Menampilkan daftar kerajinan yang cocok untuk jenis plastik yang discan.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-utensils"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Tutorial Pembuatan</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Rangkaian langkah pembuatan benda kerajinan yang lebih mudah diikuti pengguna.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Tutorial Penggunaan Aplikasi</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Panduan singkat agar pengguna paham alur dari awal hingga mendapatkan tutorial.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontribusi -->
+    <section id="kontribusi" class="py-14">
+        <div class="max-w-6xl mx-auto px-6">
+            <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Kontribusi</p>
+            <h2 class="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">Peran tim & cara kerja proyek</h2>
+
+            <div class="mt-6 grid lg:grid-cols-3 gap-5">
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                    <div class="w-14 h-14 rounded-3xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                        <i class="fa-solid fa-diagram-project"></i>
+                    </div>
+                    <h3 class="mt-4 font-extrabold text-slate-900">Perancangan Alur Pengguna</h3>
+                    <p class="text-slate-600 text-sm mt-2">Menyusun pengalaman dari beranda, proses scan, hingga pengguna masuk ke tutorial pembuatan.</p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                    <div class="w-14 h-14 rounded-3xl bg-purple-100 text-purple-700 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <h3 class="mt-4 font-extrabold text-slate-900">Rekomendasi Berdasarkan Hasil Scan</h3>
+                    <p class="text-slate-600 text-sm mt-2">Menerapkan logika sehingga jenis benda yang discan memetakan tutorial yang relevan.</p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                    <div class="w-14 h-14 rounded-3xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <h3 class="mt-4 font-extrabold text-slate-900">Implementasi Konten Tutorial</h3>
+                    <p class="text-slate-600 text-sm mt-2">Menyajikan langkah pembuatan secara jelas agar pengguna mudah mempraktikkan kerajinan.</p>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                <h3 class="font-extrabold text-slate-900">Narasi kontribusi dalam Capstone</h3>
+                <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+                    Dalam program <span class="font-extrabold">Bangkit Academy 2023</span>, kami mengembangkan Inorganic Waste App
+                    sebagai produk capstone tim beranggotakan <span class="font-extrabold">6 orang</span>. Sebagai mobile developer,
+                    fokus utama proyek adalah membangun pengalaman pengguna yang intuitif: pengguna memulai dari beranda,
+                    melakukan scan benda plastik, lalu menerima daftar tutorial kerajinan yang sesuai.
+                    
+                    <br><br>
+                    Skenario yang menjadi kunci adalah ketika contoh yang di-scan berupa <span class="font-extrabold">tas plastik</span>.
+                    Aplikasi kemudian menampilkan tutorial benda kerajinan yang dapat dibuat dari tas plastik tersebut,
+                    sehingga pembelajaran dan panduan kerajinan lebih relevan dan tepat sasaran.
+                </p>
+            </div>
+
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 items-stretch">
+                <a href="#galeri"
+                    class="px-6 py-3 rounded-2xl bg-blue-600 text-white font-bold shadow-soft hover:bg-blue-700 transition flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-camera"></i>
+                    Lihat Galeri Screenshot
+                </a>
+                <a href="../../../../index.html"
+                    class="px-6 py-3 rounded-2xl border border-slate-200 text-slate-800 font-bold shadow-soft hover:border-blue-600 hover:text-blue-600 transition flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Kembali ke Portofolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <div
+                class="bg-white border border-slate-200 rounded-3xl p-8 shadow-soft flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Selesai</p>
+                    <h2 class="text-2xl font-extrabold text-slate-900 mt-1">Inorganic Waste App (Capstone Bangkit)</h2>
+                    <p class="text-slate-600 text-sm mt-2">
+                        Studi kasus ini disusun berdasarkan screenshot UI dan konten yang tersedia di folder capstone.
+                    </p>
+                </div>
+                <a href="../../../../index.html"
+                    class="px-6 py-3 rounded-2xl bg-blue-600 text-white font-bold shadow-soft hover:bg-blue-700 transition">
+                    Kembali ke Portofolio
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let galleryItems = [];
+        let currentIndex = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            galleryItems = Array.from(document.querySelectorAll('#gallery figure'));
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') navigateLightbox(-1);
+                if (e.key === 'ArrowRight') navigateLightbox(1);
+            });
+        });
+
+        function openLightbox(figureEl) {
+            currentIndex = galleryItems.indexOf(figureEl);
+            renderLightbox();
+            document.getElementById('lightbox').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function renderLightbox() {
+            const fig = galleryItems[currentIndex];
+            const img = fig.querySelector('img');
+            const title = fig.getAttribute('data-title') || img.getAttribute('alt') || '';
+
+            document.getElementById('lightbox-img').src = img.getAttribute('src');
+            document.getElementById('lightbox-img').alt = img.getAttribute('alt');
+            document.getElementById('lightbox-title').innerText = title;
+            document.getElementById('lb-counter').innerText = `${currentIndex + 1} / ${galleryItems.length}`;
+            document.getElementById('lb-prev').disabled = currentIndex === 0;
+            document.getElementById('lb-next').disabled = currentIndex === galleryItems.length - 1;
+        }
+
+        function navigateLightbox(dir) {
+            const next = currentIndex + dir;
+            if (next < 0 || next >= galleryItems.length) return;
+            currentIndex = next;
+            renderLightbox();
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.getElementById('lightbox-img').src = '';
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+
+</html>
+

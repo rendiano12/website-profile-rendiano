@@ -1,0 +1,679 @@
+﻿<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Pengalaman Projek - Winnicode News Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(10px);
+        }
+
+        .shadow-soft {
+            box-shadow: 0 10px 30px rgba(2, 6, 23, .08);
+        }
+
+        /* ── Gallery card ── */
+        .gallery-card {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(2, 6, 23, .13);
+        }
+
+        .gallery-card img {
+            display: block;
+            width: 100%;
+            /* Rasio portrait Android ~9:19 */
+            aspect-ratio: 9 / 19;
+            object-fit: cover;
+            object-position: top;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.03);
+        }
+
+        /* ── Lightbox ── */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        #lightbox.hidden {
+            display: none;
+        }
+
+        #lightbox-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.78);
+            backdrop-filter: blur(5px);
+        }
+
+        #lightbox-panel {
+            position: relative;
+            z-index: 1;
+            background: #fff;
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 24px 64px rgba(2, 6, 23, .28);
+            display: flex;
+            flex-direction: column;
+            /* Batasi ukuran: maks 360px lebar, tinggi maks 88vh */
+            width: min(360px, calc(100vw - 32px));
+            max-height: 88vh;
+            overflow: hidden;
+        }
+
+        #lightbox-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        #lightbox-body {
+            overflow-y: auto;
+            flex: 1;
+            background: #f8fafc;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #lightbox-img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: calc(88vh - 110px);
+            border-radius: 14px;
+            object-fit: contain;
+        }
+
+        #lightbox-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-top: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .lb-nav-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #f1f5f9;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+            color: #475569;
+        }
+
+        .lb-nav-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .lb-nav-btn:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+
+    <!-- Navbar mini -->
+    <nav class="sticky top-0 z-50 bg-white/80 border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="../../../../index.html" class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-soft">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </span>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Kembali</p>
+                    <p class="font-extrabold text-slate-800">Portofolio</p>
+                </div>
+            </a>
+
+            <div class="hidden sm:flex items-center gap-3 text-sm font-bold">
+                <a href="#ringkasan" class="text-slate-600 hover:text-blue-600">Ringkasan</a>
+                <a href="#fitur" class="text-slate-600 hover:text-blue-600">Fitur</a>
+                <a href="#kontribusi" class="text-slate-600 hover:text-blue-600">Kontribusi</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50"></div>
+        <div class="relative max-w-6xl mx-auto px-6 py-12">
+            <div class="grid lg:grid-cols-3 gap-8 items-start">
+                <div class="lg:col-span-2">
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Studi Kasus Aplikasi Mobile</p>
+                    <h1 class="mt-3 text-4xl md:text-5xl font-extrabold leading-tight text-slate-900">
+                        Winnicode News Portal
+                    </h1>
+                    <p class="mt-4 text-slate-600 text-lg leading-relaxed">
+                        Projek portal berita berbasis Android yang dikembangkan menggunakan Flutter, berfokus pada
+                        tampilan antarmuka yang responsif,
+                        navigasi yang sederhana, dan desain yang konsisten.
+                    </p>
+
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <span
+                            class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            <i class="fa-solid fa-mobile-screen-button text-blue-600 mr-2"></i>Android (Flutter)
+                        </span>
+                        <span
+                            class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            <i class="fa-solid fa-diagram-project text-purple-600 mr-2"></i>REST API Integration
+                        </span>
+                        <span
+                            class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            <i class="fa-solid fa-code text-slate-700 mr-2"></i>State Management
+                        </span>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-soft">
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Program Magang</p>
+                                <h2 class="text-lg font-extrabold text-slate-900">MagangHub Kemenaker Batch 1</h2>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 space-y-3 text-sm">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-building text-purple-600"></i>
+                                <span class="text-slate-700 font-bold">PT Winnicode Garuda Teknologi</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-laptop-code text-blue-600"></i>
+                                <span class="text-slate-700 font-bold">Flutter Developer Aplication</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-shield-halved text-amber-600"></i>
+                                <span class="text-slate-700 font-bold">Diberi wewenang membuat Portal Berita berbasis
+                                    Android</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 grid grid-cols-2 gap-3">
+                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Stack</p>
+                                <p class="mt-1 font-extrabold text-slate-900">Flutter</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Fokus</p>
+                                <p class="mt-1 font-extrabold text-slate-900">UI Mobile</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Gallery -->
+    <section class="py-10">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex items-end justify-between gap-6">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Galeri Screenshot</p>
+                    <h2 class="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">Tampilan Utama Aplikasi</h2>
+                </div>
+                <p class="text-slate-500 text-sm italic">Klik gambar untuk melihat panel full</p>
+            </div>
+
+            <!-- Lightbox -->
+            <div id="lightbox" class="hidden">
+                <div id="lightbox-overlay" onclick="closeLightbox()"></div>
+                <div id="lightbox-panel">
+                    <div id="lightbox-header">
+                        <p id="lightbox-title" class="font-bold text-slate-800 text-sm"></p>
+                        <button class="lb-nav-btn" onclick="closeLightbox()" aria-label="Tutup">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div id="lightbox-body">
+                        <img id="lightbox-img" src="" alt="" />
+                    </div>
+                    <div id="lightbox-footer">
+                        <button id="lb-prev" class="lb-nav-btn" onclick="navigateLightbox(-1)" aria-label="Sebelumnya">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span id="lb-counter" class="text-xs font-bold text-slate-500"></span>
+                        <button id="lb-next" class="lb-nav-btn" onclick="navigateLightbox(1)" aria-label="Berikutnya">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gallery" class="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/beranda.png" alt="Beranda" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Beranda</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Ringkasan konten & navigasi awal</p>
+                    </figcaption>
+                </figure>
+
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/explore.png" alt="Explore" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Explore</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Menemukan berita berdasarkan kategori</p>
+                    </figcaption>
+                </figure>
+
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/bookmark.png" alt="Bookmark" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Bookmark</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Menyimpan artikel untuk dibaca kembali</p>
+                    </figcaption>
+                </figure>
+
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/detail berita.png" alt="Detail Berita" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Detail Berita</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Halaman artikel lengkap dan nyaman dibaca</p>
+                    </figcaption>
+                </figure>
+
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/login.png" alt="Login" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Login</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Halaman autentikasi</p>
+                    </figcaption>
+                </figure>
+
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/lupa password.png" alt="Lupa Password" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Lupa Password</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Flow pemulihan akun</p>
+                    </figcaption>
+                </figure>
+
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/profil.png" alt="Profil" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Profil</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Halaman profil akun</p>
+                    </figcaption>
+                </figure>
+
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/profil edit profil.png" alt="Edit Profil" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Edit Profil</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Halaman edit data akun</p>
+                    </figcaption>
+                </figure>
+
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/profil change password.png" alt="Ganti Password" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Ganti Password</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Pengelolaan keamanan akun</p>
+                    </figcaption>
+                </figure>
+
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/profil default theme.png" alt="Tema Default" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Tema Default</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Tampilan standar</p>
+                    </figcaption>
+                </figure>
+
+                <figure
+                    class="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)">
+                    <div class="overflow-hidden">
+                        <img class="w-full aspect-[9/19] object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
+                            src="./img/profil dark theme.png" alt="Tema Dark" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Tema Dark</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Tampilan tema gelap</p>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ringkasan + Fitur -->
+    <section id="ringkasan" class="py-14">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Ringkasan Projek</p>
+                    <h2 class="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">MagangHub → Flutter Developer
+                        Aplication → Portal Berita Android</h2>
+                    <div class="mt-5 bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                        <ul class="space-y-4 text-slate-700">
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                                <span>
+                                    Projek ini merupakan bagian dari <span class="font-extrabold">Program MagangHub
+                                        Kemenaker Batch 1</span>.
+                                </span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                                <span>
+                                    Penempatan di <span class="font-extrabold">PT Winnicode Garuda Teknologi</span> pada
+                                    bidang <span class="font-extrabold">Flutter Developer Aplication</span>.
+                                </span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                                <span>
+                                    Selama magang, saya <span class="font-extrabold">diberi wewenang untuk membuat
+                                        proyek portal berita berbasis Android</span>.
+                                    Output-nya adalah aplikasi berita dengan tampilan yang lebih rapi, terstruktur,
+                                    dan konsisten.
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-5 flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold">Peran:
+                            Flutter Developer</span>
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold">Mode:
+                            Development Iteratif</span>
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold">Output:
+                            Portal Berita Android</span>
+                    </div>
+                </div>
+
+                <div id="fitur" class="scroll-mt-24">
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Fitur Utama</p>
+                    <h3 class="mt-2 text-2xl font-extrabold text-slate-900">Apa yang dibangun</h3>
+                    <div class="mt-5 space-y-4">
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div
+                                    class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-house"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Beranda & Explore</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Menyajikan konten berita secara ringkas
+                                        dengan tampilan yang terstruktur.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div
+                                    class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-bookmark"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Bookmark</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Fitur simpan artikel untuk dibaca kembali
+                                        kapan saja.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div
+                                    class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-newspaper"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Detail Berita</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Halaman artikel lengkap dengan pengalaman
+                                        membaca yang nyaman.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div
+                                    class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Authentication & Profil</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Login, lupa password, edit profil, dan ganti
+                                        password.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div
+                                    class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-moon"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Tema Default & Dark</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Pengaturan tampilan tema terang dan gelap.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontribusi -->
+    <section id="kontribusi" class="py-14">
+        <div class="max-w-6xl mx-auto px-6">
+            <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Kontribusi</p>
+            <h2 class="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">Wewenang yang diberikan & cara kerja
+            </h2>
+
+            <div class="mt-6 grid lg:grid-cols-3 gap-5">
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                    <div class="w-14 h-14 rounded-3xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                    </div>
+                    <h3 class="mt-4 font-extrabold text-slate-900">Perencanaan Fitur</h3>
+                    <p class="text-slate-600 text-sm mt-2">Merancang alur tampilan dari onboarding sampai halaman
+                        artikel.</p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                    <div class="w-14 h-14 rounded-3xl bg-purple-100 text-purple-700 flex items-center justify-center">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="mt-4 font-extrabold text-slate-900">Implementasi Flutter</h3>
+                    <p class="text-slate-600 text-sm mt-2">Membangun UI, navigasi, serta state management untuk
+                        pengalaman yang konsisten.</p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                    <div class="w-14 h-14 rounded-3xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+                    <h3 class="mt-4 font-extrabold text-slate-900">Integrasi Data (REST API)</h3>
+                    <p class="text-slate-600 text-sm mt-2">Menghubungkan aplikasi dengan layanan backend agar konten
+                        selalu ter-update.</p>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                <h3 class="font-extrabold text-slate-900">Wewenang membuat Portal Berita berbasis Android</h3>
+                <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+                    Dalam program MagangHub Kemenaker batch 1 di PT Winnicode Garuda Teknologi, saya diberi wewenang
+                    untuk mengembangkan
+                    proyek portal berita berbasis Android. Tanggung jawab tersebut mencakup pembuatan tampilan utama,
+                    fitur autentikasi, bookmark,
+                    profil & pengaturan tema, serta integrasi data untuk menampilkan berita pada layar.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <div
+                class="bg-white border border-slate-200 rounded-3xl p-8 shadow-soft flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Selesai</p>
+                    <h2 class="text-2xl font-extrabold text-slate-900 mt-1">Winnicode News Portal</h2>
+                    <p class="text-slate-600 text-sm mt-2">Terima kasih—studi kasus ini disusun berdasarkan screenshot
+                        aplikasi di folder proyek.</p>
+                </div>
+                <a href="../../../../index.html"
+                    class="px-6 py-3 rounded-2xl bg-blue-600 text-white font-bold shadow-soft hover:bg-blue-700 transition">
+                    Kembali ke Portofolio
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let galleryItems = [];
+        let currentIndex = 0;
+
+        // Kumpulkan semua figure di gallery saat halaman siap
+        document.addEventListener('DOMContentLoaded', () => {
+            galleryItems = Array.from(document.querySelectorAll('#gallery figure'));
+
+            // Tutup lightbox dengan tombol Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') navigateLightbox(-1);
+                if (e.key === 'ArrowRight') navigateLightbox(1);
+            });
+        });
+
+        function openLightbox(figureEl) {
+            currentIndex = galleryItems.indexOf(figureEl);
+            renderLightbox();
+            document.getElementById('lightbox').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function renderLightbox() {
+            const fig = galleryItems[currentIndex];
+            const img = fig.querySelector('img');
+            const title = fig.querySelector('figcaption p')?.innerText || img.getAttribute('alt') || '';
+
+            document.getElementById('lightbox-img').src = img.getAttribute('src');
+            document.getElementById('lightbox-img').alt = img.getAttribute('alt');
+            document.getElementById('lightbox-title').innerText = title;
+            document.getElementById('lb-counter').innerText = `${currentIndex + 1} / ${galleryItems.length}`;
+            document.getElementById('lb-prev').disabled = currentIndex === 0;
+            document.getElementById('lb-next').disabled = currentIndex === galleryItems.length - 1;
+        }
+
+        function navigateLightbox(dir) {
+            const next = currentIndex + dir;
+            if (next < 0 || next >= galleryItems.length) return;
+            currentIndex = next;
+            renderLightbox();
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.getElementById('lightbox-img').src = '';
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+
+</html>

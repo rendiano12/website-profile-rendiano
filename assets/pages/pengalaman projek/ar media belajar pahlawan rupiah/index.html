@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Pengalaman Projek - AR Media Pembelajaran Pahlawan & Tarian pada Uang Rupiah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+        }
+
+        .shadow-soft {
+            box-shadow: 0 10px 30px rgba(2, 6, 23, .08);
+        }
+
+        .gallery-card {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(2, 6, 23, .13);
+        }
+
+        .gallery-card img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 9 / 19;
+            object-fit: cover;
+            object-position: top;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Lightbox */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        #lightbox.hidden {
+            display: none;
+        }
+
+        #lightbox-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.78);
+            backdrop-filter: blur(5px);
+        }
+
+        #lightbox-panel {
+            position: relative;
+            z-index: 1;
+            background: #fff;
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 24px 64px rgba(2, 6, 23, .28);
+            display: flex;
+            flex-direction: column;
+            width: min(420px, calc(100vw - 32px));
+            max-height: 88vh;
+            overflow: hidden;
+        }
+
+        #lightbox-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        #lightbox-body {
+            overflow-y: auto;
+            flex: 1;
+            background: #f8fafc;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #lightbox-img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: calc(88vh - 110px);
+            border-radius: 14px;
+            object-fit: contain;
+        }
+
+        /* Galeri AR: tampilkan landscape/lebih lebar */
+#gallery figure img {
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            object-position: center;
+        }
+
+
+        #lightbox-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-top: 1px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .lb-nav-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #f1f5f9;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+            color: #475569;
+        }
+
+        .lb-nav-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .lb-nav-btn:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+
+        .muted-text {
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+
+    <!-- Navbar mini -->
+    <nav class="sticky top-0 z-50 bg-white/80 border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="../../../../index.html" class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-soft">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </span>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Kembali</p>
+                    <p class="font-extrabold text-slate-800">Portofolio</p>
+                </div>
+            </a>
+
+            <div class="hidden sm:flex items-center gap-3 text-sm font-bold">
+                <a href="#ringkasan" class="text-slate-600 hover:text-blue-600">Ringkasan</a>
+                <a href="#fitur" class="text-slate-600 hover:text-blue-600">Fitur</a>
+                <a href="#kontribusi" class="text-slate-600 hover:text-blue-600">Kontribusi</a>
+                <a href="#galeri" class="text-slate-600 hover:text-blue-600">Galeri</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="relative">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50"></div>
+        <div class="relative max-w-6xl mx-auto px-6 py-12">
+            <div class="grid lg:grid-cols-3 gap-8 items-start">
+                <div class="lg:col-span-2">
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Penelitian Skripsi (AR)</p>
+                    <h1 class="mt-3 text-4xl md:text-5xl font-extrabold leading-tight text-slate-900">
+                        Augmented Reality<br />
+                        Media Pembelajaran Pahlawan & Tarian pada Uang Rupiah
+                    </h1>
+
+                    <p class="mt-4 text-slate-600 text-lg leading-relaxed">
+                        Projek ini merupakan hasil <span class="font-extrabold">penelitian skripsi</span> selama masa studi di
+                        <span class="font-extrabold">Teknik Informatika Universitas Muhammadiyah Purwokerto</span>.
+                        Tujuan utamanya adalah menghadirkan <span class="font-extrabold">media pembelajaran</span> yang lebih
+                        efisien untuk <span class="font-extrabold">anak SD kelas 4 di SD UMP</span>.
+                    </p>
+
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            <i class="fa-solid fa-wand-magic-sparkles text-blue-600 mr-2"></i>AR Education
+                        </span>
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            <i class="fa-solid fa-user-graduate text-purple-600 mr-2"></i>Target: Kelas 4 SD
+                        </span>
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">
+                            <i class="fa-solid fa-money-bill-wave text-indigo-600 mr-2"></i>Media: Uang Rupiah
+                        </span>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-soft">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Fokus Projek</p>
+                                <h2 class="text-lg font-extrabold text-slate-900">Media Pembelajaran AR</h2>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 space-y-3 text-sm">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-landmark text-purple-600"></i>
+                                <span class="text-slate-700 font-bold">Pahlawan & Kontribusi</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-drumstick-bite text-blue-600"></i>
+                                <span class="text-slate-700 font-bold">Tarian Daerah</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-money-bill-wave text-indigo-600"></i>
+                                <span class="text-slate-700 font-bold">Konteks melalui Uang Rupiah</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 grid grid-cols-2 gap-3">
+                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Output</p>
+                                <p class="mt-1 font-extrabold text-slate-900">Materi AR Interaktif</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Tujuan</p>
+                                <p class="mt-1 font-extrabold text-slate-900">Pemahaman Siswa</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Gallery -->
+    <section id="galeri" class="py-10">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex items-end justify-between gap-6">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Galeri Screenshot</p>
+                    <h2 class="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">Tampilan Media AR</h2>
+                </div>
+                <p class="text-slate-500 text-sm italic">Klik gambar untuk melihat panel full</p>
+            </div>
+
+            <!-- Lightbox -->
+            <div id="lightbox" class="hidden">
+                <div id="lightbox-overlay" onclick="closeLightbox()"></div>
+                <div id="lightbox-panel">
+                    <div id="lightbox-header">
+                        <p id="lightbox-title" class="font-bold text-slate-800 text-sm"></p>
+                        <button class="lb-nav-btn" onclick="closeLightbox()" aria-label="Tutup">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div id="lightbox-body">
+                        <img id="lightbox-img" src="" alt="" />
+                    </div>
+                    <div id="lightbox-footer">
+                        <button id="lb-prev" class="lb-nav-btn" onclick="navigateLightbox(-1)" aria-label="Sebelumnya">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span id="lb-counter" class="text-xs font-bold text-slate-500"></span>
+                        <button id="lb-next" class="lb-nav-btn" onclick="navigateLightbox(1)" aria-label="Berikutnya">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gallery" class="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Halaman Beranda">
+                        <div class="overflow-hidden">
+                            <img src="./img/halaman beranda.png" alt="Halaman Beranda" />
+                        </div>
+                        <a href="#" class="hidden" aria-hidden="true"></a>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Beranda</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Ringkasan akses materi</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Panduan Penggunaan">
+                    <div class="overflow-hidden">
+                        <img src="./img/Halaman Panduan.png" alt="Halaman Panduan" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Panduan</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Langkah penggunaan AR</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Info Profil">
+                    <div class="overflow-hidden">
+                        <img src="./img/Halaman Info Profil.png" alt="Halaman Info Profil" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Info Profil</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Informasi pengguna</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Menu Materi">
+                    <div class="overflow-hidden">
+                        <img src="./img/halaman materi.png" alt="Halaman Materi" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Materi</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Kumpulan topik pembelajaran</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Materi Pahlawan">
+                    <div class="overflow-hidden">
+                        <img src="./img/Halaman Materi Pahlawan.png" alt="Materi Pahlawan" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Pahlawan</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Tokoh & penjelasan</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Materi Tarian">
+                    <div class="overflow-hidden">
+                        <img src="./img/Halaman Materi Tarian.png" alt="Materi Tarian" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Tarian</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Ragam tarian daerah</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Halaman Detail Materi">
+                    <div class="overflow-hidden">
+                        <img src="./img/Halaman Detail Materi.png" alt="Halaman Detail Materi" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Detail Materi</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Penjelasan lebih terarah</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Menu Kuis">
+                    <div class="overflow-hidden">
+                        <img src="./img/Halaman Menu Kuis.png" alt="Menu Kuis" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Menu Kuis</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Uji pemahaman siswa</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Halaman Kuis">
+                    <div class="overflow-hidden">
+                        <img src="./img/Halaman Kuis.png" alt="Halaman Kuis" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Kuis</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Evaluasi pembelajaran</p>
+                    </figcaption>
+                </figure>
+
+                <figure class="gallery-card group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer"
+                    onclick="openLightbox(this)" data-title="Scan AR (Uang Rupiah)">
+                    <div class="overflow-hidden">
+                        <img src="./img/Halaman Scan AR.jpg" alt="Scan AR" />
+                    </div>
+                    <figcaption class="p-3">
+                        <p class="font-bold text-slate-800 text-sm">Scan AR</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Pemicu objek 3D di media uang</p>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ringkasan + Fitur -->
+    <section id="ringkasan" class="py-14">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Ringkasan Projek</p>
+                    <h2 class="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">
+                        Skripsi AR untuk SD Kelas 4 di SD UMP
+                    </h2>
+
+                    <div class="mt-5 bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                        <ul class="space-y-4 text-slate-700">
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                                <span>
+                                    Projek ini disusun sebagai <span class="font-extrabold">hasil penelitian skripsi</span>
+                                    selama masa studi di <span class="font-extrabold">Teknik Informatika Universitas Muhammadiyah Purwokerto</span>.
+                                </span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                                <span>
+                                    Tujuan pengembangan adalah menjadikan pembelajaran lebih menarik bagi <span class="font-extrabold">anak SD kelas 4</span> di <span class="font-extrabold">SD UMP</span>.
+                                </span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-circle-check text-blue-600 mt-1"></i>
+                                <span>
+                                    Materi disajikan melalui pendekatan <span class="font-extrabold">Augmented Reality</span> dengan
+                                    menggunakan <span class="font-extrabold">media uang rupiah</span> sebagai pemicu agar siswa lebih mudah mengeksplorasi konsep.
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-5 flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">Media: AR + Uang Rupiah</span>
+                        <span class="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-bold shadow-soft">Fokus: Pahlawan & Tarian</span>
+                    </div>
+                </div>
+
+                <div id="fitur" class="scroll-mt-24">
+                    <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Fitur Utama</p>
+                    <h3 class="mt-2 text-2xl font-extrabold text-slate-900">Apa yang dibangun dalam media AR</h3>
+
+                    <div class="mt-5 space-y-4">
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-house"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Beranda & Navigasi Materi</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Mengarahkan siswa untuk memilih materi dan memulai pembelajaran dengan alur yang sederhana.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Materi Pahlawan</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Menampilkan tokoh pahlawan dan informasi pendukung agar siswa memahami peran pentingnya.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-drum"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Materi Tarian Daerah</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Mengenalkan ragam tarian daerah dengan tampilan yang lebih visual dan menarik.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-qrcode"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Scan AR Menggunakan Uang Rupiah</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Media uang rupiah dipakai sebagai pemicu tampilan AR agar objek pembelajaran muncul secara nyata.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-extrabold text-slate-900">Kuis & Evaluasi</h4>
+                                    <p class="text-slate-600 text-sm mt-2">Menguji pemahaman siswa setelah eksplorasi materi, sehingga pembelajaran lebih terarah.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontribusi -->
+    <section id="kontribusi" class="py-14">
+        <div class="max-w-6xl mx-auto px-6">
+            <p class="text-xs font-bold uppercase tracking-widest text-blue-600">Kontribusi</p>
+            <h2 class="mt-2 text-2xl md:text-3xl font-extrabold text-slate-900">Wewenang yang dibangun & cara kerja</h2>
+
+            <div class="mt-6 grid lg:grid-cols-3 gap-5">
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                    <div class="w-14 h-14 rounded-3xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                    </div>
+                    <h3 class="mt-4 font-extrabold text-slate-900">Perancangan Alur Pembelajaran</h3>
+                    <p class="text-slate-600 text-sm mt-2">Menyusun alur materi dari beranda, panduan, sampai evaluasi kuis agar sesuai untuk siswa SD.</p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                    <div class="w-14 h-14 rounded-3xl bg-purple-100 text-purple-700 flex items-center justify-center">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="mt-4 font-extrabold text-slate-900">Integrasi Konten AR</h3>
+                    <p class="text-slate-600 text-sm mt-2">Menghubungkan materi pahlawan dan tarian ke tampilan AR yang muncul saat pemicu terdeteksi.</p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                    <div class="w-14 h-14 rounded-3xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="mt-4 font-extrabold text-slate-900">Evaluasi Pemahaman Siswa</h3>
+                    <p class="text-slate-600 text-sm mt-2">Menerapkan kuis sederhana sebagai sarana penilaian untuk menguatkan materi yang dipelajari.</p>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-white border border-slate-200 rounded-3xl p-6 shadow-soft">
+                <h3 class="font-extrabold text-slate-900">Narasi kontribusi dalam skripsi</h3>
+                <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+                    Dalam penelitian ini, saya merancang dan membangun media pembelajaran AR yang memadukan
+                    materi <span class="font-extrabold text-slate-900">pahlawan</span> dan <span class="font-extrabold text-slate-900">tarian daerah</span>
+                    dengan media <span class="font-extrabold text-slate-900">uang rupiah</span> sebagai pemicu visual.
+                    Projek diarahkan untuk mendukung proses belajar siswa SD kelas 4 di SD UMP agar lebih interaktif,
+                    mudah dipahami, dan sesuai karakter pembelajaran anak.
+                </p>
+            </div>
+
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 items-stretch">
+                <a href="#galeri"
+                    class="px-6 py-3 rounded-2xl bg-blue-600 text-white font-bold shadow-soft hover:bg-blue-700 transition flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-camera"></i>
+                    Lihat Galeri Screenshot
+                </a>
+                <a href="../../../../index.html"
+                    class="px-6 py-3 rounded-2xl border border-slate-200 text-slate-800 font-bold shadow-soft hover:border-blue-600 hover:text-blue-600 transition flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Kembali ke Portofolio
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="py-12">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="bg-white border border-slate-200 rounded-3xl p-8 shadow-soft flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Selesai</p>
+                    <h2 class="text-2xl font-extrabold text-slate-900 mt-1">AR Media Pembelajaran Pahlawan & Tarian</h2>
+                    <p class="text-slate-600 text-sm mt-2">
+                        Studi skripsi—dirancang sebagai media pembelajaran untuk siswa SD kelas 4 di SD UMP.
+                    </p>
+                </div>
+                <a href="../../../../index.html"
+                    class="px-6 py-3 rounded-2xl bg-blue-600 text-white font-bold shadow-soft hover:bg-blue-700 transition">
+                    Kembali ke Portofolio
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let galleryItems = [];
+        let currentIndex = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            galleryItems = Array.from(document.querySelectorAll('#gallery figure'));
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') navigateLightbox(-1);
+                if (e.key === 'ArrowRight') navigateLightbox(1);
+            });
+        });
+
+        function openLightbox(figureEl) {
+            currentIndex = galleryItems.indexOf(figureEl);
+            renderLightbox();
+            document.getElementById('lightbox').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function renderLightbox() {
+            const fig = galleryItems[currentIndex];
+            const img = fig.querySelector('img');
+            const title = fig.getAttribute('data-title') || img.getAttribute('alt') || '';
+
+            document.getElementById('lightbox-img').src = img.getAttribute('src');
+            document.getElementById('lightbox-img').alt = img.getAttribute('alt');
+            document.getElementById('lightbox-title').innerText = title;
+            document.getElementById('lb-counter').innerText = `${currentIndex + 1} / ${galleryItems.length}`;
+
+            document.getElementById('lb-prev').disabled = currentIndex === 0;
+            document.getElementById('lb-next').disabled = currentIndex === galleryItems.length - 1;
+        }
+
+        function navigateLightbox(dir) {
+            const next = currentIndex + dir;
+            if (next < 0 || next >= galleryItems.length) return;
+            currentIndex = next;
+            renderLightbox();
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.getElementById('lightbox-img').src = '';
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+
+</html>
+
