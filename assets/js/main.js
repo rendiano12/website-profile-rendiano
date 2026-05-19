@@ -72,9 +72,11 @@ const experiences = [
         company: "PT Winnicode Garuda Teknologi",
         period: "Oktober 2025 – April 2026",
         location: "Purwokerto, Indonesia",
-        desc: "Mengembangkan aplikasi portal berita berbasis Android menggunakan Flutter mulai dari perancangan tampilan, pembuatan fitur, hingga pengujian fungsional. Mengintegrasikan aplikasi dengan API backend, melakukan debugging, serta berkolaborasi dengan tim dalam review kode dan perbaikan struktur proyek.",
+        desc: "Mengembangkan aplikasi portal berita berbasis Android menggunakan Flutter mulai dari perancangan tampilan, pembuatan fitur, hingga pengujian fungsional. Mengintegrasikan aplikasi dengan API backend, melakukan debugging, serta berkolaborasi dengan tim dalam review kode.",
         icon: "fas fa-mobile-alt",
-        color: "bg-blue-600"
+        color: "bg-blue-600",
+        certificateLabel: "Lihat Sertifikat (PDF)",
+        certificateLink: "assets/docs/sertifikat maganghub batch 1.pdf"
     },
     {
         role: "Mobile Development",
@@ -83,7 +85,9 @@ const experiences = [
         location: "Purwokerto, Indonesia",
         desc: "Mengembangkan aplikasi Android menggunakan Kotlin dengan menerapkan Android Fundamental (Activity, Fragment, RecyclerView, ViewModel), prinsip SOLID, konsumsi API, Room, DataStore, dan integrasi MLKit. Berkolaborasi dalam Capstone Project bersama 6 anggota tim lintas bidang.",
         icon: "fas fa-graduation-cap",
-        color: "bg-purple-600"
+        color: "bg-purple-600",
+        certificateLabel: "Lihat Sertifikat (PDF)",
+        certificateLink: "assets/docs/sertifikat bangkit academy.pdf"
     }
 ];
 
@@ -345,6 +349,13 @@ function renderExperience() {
                             </div>
                         </div>
                         <p class="text-slate-500 text-sm leading-relaxed">${exp.desc}</p>
+                        ${exp.certificateLink ? `
+                            <a href="${exp.certificateLink}" target="_blank" rel="noopener noreferrer"
+                                class="mt-4 inline-flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 text-white font-bold shadow-sm hover:bg-slate-800 transition">
+                                <i class="fas fa-file-pdf"></i>
+                                ${exp.certificateLabel || 'Lihat Sertifikat (PDF)'}
+                            </a>
+                        ` : ''}
                     </div>
                 </div>
             `).join('')}
