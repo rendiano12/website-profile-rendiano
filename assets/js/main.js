@@ -28,7 +28,7 @@ const projects = [
         title: "Website Sistem Monitoring PT Kimia Farma",
         category: "WEB APP / PHP",
         desc: "Aplikasi web multi-modul untuk manajemen aset, pemantauan AC, dan operasional driver dengan dashboard CRUD dan arsitektur modular.",
-        tech: ["PHP", "Tailwind CSS", "JavaScript", "MySQL"],
+        tech: ["Laravel 11", "Tailwind CSS", "JavaScript", "MySQL"],
         img: "assets/pages/pengalaman projek/sistem monitoring kimia farma apotek/img/beranda depan.png",
         link: "assets/pages/pengalaman projek/sistem monitoring kimia farma apotek/index.html"
     },
@@ -255,6 +255,38 @@ const certificates = [
         icon: "fas fa-code",
         color: "bg-slate-100 text-slate-700",
         link: "https://www.codepolitan.com/c/WKWHXJJ/"
+    },
+    {
+        title: "Introducing Coding for Beginners — HTML & CSS Online Course",
+        issuer: "BitDegree",
+        date: "2021",
+        icon: "fab fa-html5",
+        color: "bg-orange-100 text-orange-600",
+        link: "assets/docs/Introducing Coding for Beginners - an HTML and CSS Online Course.pdf"
+    },
+    {
+        title: "Learn Command Line — Mac & Linux Command Line Tutorial",
+        issuer: "BitDegree",
+        date: "2021",
+        icon: "fas fa-terminal",
+        color: "bg-slate-100 text-slate-600",
+        link: "assets/docs/Learn Command Line - Mac and Linux Command Line Tutorial.pdf"
+    },
+    {
+        title: "Learn JavaScript — Quick Course for Beginners",
+        issuer: "BitDegree",
+        date: "2021",
+        icon: "fab fa-js",
+        color: "bg-yellow-100 text-yellow-600",
+        link: "assets/docs/Learn JavaScript - Quick Course for Beginners.pdf"
+    },
+    {
+        title: "PyQt5 — Create an AMAZING Calculator!!",
+        issuer: "BitDegree",
+        date: "2021",
+        icon: "fab fa-python",
+        color: "bg-blue-100 text-blue-600",
+        link: "assets/docs/PyQt5 - Create an AMAZING Calculator!!.pdf"
     }
 ];
 
