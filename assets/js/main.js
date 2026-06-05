@@ -287,6 +287,14 @@ const certificates = [
         icon: "fab fa-python",
         color: "bg-blue-100 text-blue-600",
         link: "assets/docs/PyQt5 - Create an AMAZING Calculator!!.pdf"
+    },
+    {
+        title: "Proposal Program Kegiatan Mahasiswa (PKM)",
+        issuer: "Universitas Muhammadiyah Purwokerto (Student Scientific Center)",
+        date: "2025",
+        icon: "fas fa-scroll",
+        color: "bg-emerald-100 text-emerald-600",
+        link: "assets/docs/sertifikat rendiano pkm.pdf"
     }
 ];
 
