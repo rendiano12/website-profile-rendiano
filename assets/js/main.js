@@ -306,28 +306,41 @@ const certificates = [
 function renderProjects() {
     const container = document.getElementById('projects-container');
     if (!container) return;
+
+    // Card accent colors per project
+    const accents = [
+        'from-indigo-500 to-blue-500',
+        'from-blue-500 to-cyan-500',
+        'from-purple-500 to-pink-500',
+        'from-emerald-500 to-teal-500'
+    ];
+
     container.innerHTML = projects.map((item, i) => `
-        <div class="reveal reveal-delay-${(i % 3) + 1} group relative bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 card-hover">
-                <div class="h-48 overflow-hidden relative bg-slate-100">
+        <div class="reveal reveal-delay-${(i % 3) + 1} group relative bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 card-hover card-accent-top">
+            <div class="h-48 overflow-hidden relative bg-slate-100">
                 <img src="${item.img}" alt="${item.title}"
-                     class="w-full h-full object-cover"
+                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                      onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-slate-300\'><i class=\'fas fa-image text-4xl\'></i></div>'">
-                <div class="absolute inset-0 bg-slate-900/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-5">
-                    <a href="${item.link}" class="text-white text-sm italic underline">Lihat Detail &rarr;</a>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-5">
+                    <a href="${item.link}" class="text-white text-sm font-semibold flex items-center gap-2">
+                        Lihat Detail <i class="fas fa-arrow-right text-xs"></i>
+                    </a>
                 </div>
+                <!-- Category badge -->
+                <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-white shadow"
+                    style="background:linear-gradient(135deg,#6366f1,#3b82f6);">${item.category}</span>
             </div>
             <div class="p-6">
-                <span class="text-xs font-bold text-blue-600 tracking-widest uppercase mb-2 block">${item.category}</span>
-                <h4 class="text-lg font-bold mb-2 text-slate-800">${item.title}</h4>
+                <h4 class="text-base font-bold mb-2 text-slate-800 leading-snug">${item.title}</h4>
                 <p class="text-slate-500 text-sm mb-4 leading-relaxed italic">"${item.desc}"</p>
                 <div class="flex flex-wrap gap-2">
-                    ${item.tech.map(t => `<span class="px-3 py-1 bg-slate-100 text-slate-600 text-[10px] rounded-full font-bold uppercase tracking-tighter">${t}</span>`).join('')}
+                    ${item.tech.map(t => `<span class="px-3 py-1 text-[10px] rounded-full font-bold uppercase tracking-tighter"
+                        style="background:rgba(99,102,241,0.1);color:#4f46e5;">${t}</span>`).join('')}
                 </div>
             </div>
         </div>
     `).join('');
 
-    // Observe newly rendered cards
     container.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 }
 
@@ -336,17 +349,27 @@ function renderSkills() {
     const tagsEl = document.getElementById('skill-tags');
     if (!barsEl || !tagsEl) return;
 
-    barsEl.innerHTML = skills.map(s => `
+    // Colors per skill bar
+    const barColors = [
+        { from: '#6366f1', to: '#3b82f6' },
+        { from: '#8b5cf6', to: '#6366f1' },
+        { from: '#ec4899', to: '#a855f7' },
+        { from: '#10b981', to: '#06b6d4' }
+    ];
+
+    barsEl.innerHTML = skills.map((s, idx) => {
+        const c = barColors[idx % barColors.length];
+        return `
         <div>
             <div class="flex justify-between mb-2">
                 <span class="text-sm font-bold text-slate-700">${s.name}</span>
-                <span class="text-sm font-bold text-blue-600">${s.level}%</span>
+                <span class="text-sm font-bold" style="color:${c.from};">${s.level}%</span>
             </div>
             <div class="h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                <div class="skill-bar h-full ${s.color} rounded-full" style="width: 0%" data-width="${s.level}%"></div>
+                <div class="skill-bar h-full rounded-full" style="width:0%;background:linear-gradient(90deg,${c.from},${c.to});" data-width="${s.level}%"></div>
             </div>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
 
     tagsEl.innerHTML = skillTags.map(tag => `
         <span class="skill-tag px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm rounded-full font-semibold shadow-sm cursor-default">${tag}</span>
@@ -371,27 +394,31 @@ function renderExperience() {
     if (!container) return;
 
     container.innerHTML = `
-        <div class="relative pl-8 border-l-2 border-slate-200 space-y-10">
+        <div class="relative pl-8 space-y-10">
+            <!-- Gradient timeline line -->
+            <div class="absolute left-3 top-0 bottom-0 w-0.5 timeline-line rounded-full"></div>
             ${experiences.map((exp, i) => `
                 <div class="reveal relative">
-                    <div class="absolute -left-[41px] w-8 h-8 ${exp.color} rounded-full flex items-center justify-center text-white text-xs shadow-md">
+                    <div class="absolute -left-[29px] w-9 h-9 ${exp.color} rounded-xl flex items-center justify-center text-white text-sm shadow-lg">
                         <i class="${exp.icon}"></i>
                     </div>
-                    <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 card-hover ml-4">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 card-hover card-accent-top ml-4">
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                             <div>
                                 <h3 class="text-lg font-bold text-slate-800">${exp.role}</h3>
-                                <p class="text-blue-600 font-semibold text-sm">${exp.company}</p>
+                                <p class="font-semibold text-sm" style="background:linear-gradient(90deg,#6366f1,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${exp.company}</p>
                             </div>
-                            <div class="text-right">
-                                <span class="inline-block px-3 py-1 bg-slate-100 text-slate-600 text-xs rounded-full font-bold">${exp.period}</span>
+                            <div class="text-right flex-shrink-0">
+                                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold"
+                                    style="background:rgba(99,102,241,0.1);color:#4f46e5;">${exp.period}</span>
                                 <p class="text-xs text-slate-400 mt-1"><i class="fas fa-map-marker-alt mr-1"></i>${exp.location}</p>
                             </div>
                         </div>
                         <p class="text-slate-500 text-sm leading-relaxed">${exp.desc}</p>
                         ${exp.certificateLink ? `
                             <a href="${exp.certificateLink}" target="_blank" rel="noopener noreferrer"
-                                class="mt-4 inline-flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 text-white font-bold shadow-sm hover:bg-slate-800 transition">
+                                class="mt-4 inline-flex items-center gap-3 px-4 py-3 rounded-xl font-bold shadow-sm btn-anim transition text-white text-sm"
+                                style="background:linear-gradient(135deg,#1e293b,#312e81);">
                                 <i class="fas fa-file-pdf"></i>
                                 ${exp.certificateLabel || 'Lihat Sertifikat (PDF)'}
                             </a>
@@ -410,16 +437,17 @@ function renderEducation() {
 
     container.innerHTML = educations.map((edu) => `
         <div class="reveal flex gap-6 items-start">
-            <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br ${edu.color} rounded-xl flex items-center justify-center text-white text-xl shadow-md">
+            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br ${edu.color} rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
                 <i class="${edu.icon}"></i>
             </div>
-            <div class="flex-1 bg-white rounded-xl p-6 shadow-sm border border-slate-200 card-hover">
+            <div class="flex-1 bg-white rounded-2xl p-6 shadow-sm border border-indigo-100 card-hover card-accent-top">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
                     <h3 class="text-lg font-bold text-slate-800">${edu.degree}</h3>
-                    <span class="inline-block px-3 py-1 bg-slate-100 text-slate-600 text-xs rounded-full font-bold">${edu.period}</span>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-bold flex-shrink-0"
+                        style="background:rgba(99,102,241,0.1);color:#4f46e5;">${edu.period}</span>
                 </div>
-                <p class="text-blue-600 font-semibold text-sm mb-1">${edu.school}</p>
-                ${edu.gpa ? `<p class="text-green-600 text-xs font-bold mb-2"><i class="fas fa-star mr-1"></i>${edu.gpa}</p>` : ''}
+                <p class="font-semibold text-sm mb-1" style="background:linear-gradient(90deg,#6366f1,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${edu.school}</p>
+                ${edu.gpa ? `<p class="text-emerald-600 text-xs font-bold mb-3 flex items-center gap-1"><i class="fas fa-star text-yellow-400"></i>${edu.gpa}</p>` : ''}
                 <p class="text-slate-500 text-sm leading-relaxed">${edu.desc}</p>
             </div>
         </div>
@@ -442,19 +470,20 @@ function renderCertificates() {
     // Build card HTML
     function certCard(cert, delay) {
         return `
-            <div class="reveal reveal-delay-${delay} bg-white rounded-xl p-5 shadow-sm border border-slate-200 card-hover flex gap-4 items-start">
+            <div class="reveal reveal-delay-${delay} bg-white rounded-xl p-5 shadow-sm border border-slate-100 card-hover card-accent-top flex gap-4 items-start">
                 <div class="w-12 h-12 ${cert.color} rounded-xl flex items-center justify-center text-xl flex-shrink-0">
                     <i class="${cert.icon}"></i>
                 </div>
                 <div class="flex-1 min-w-0">
                     <h4 class="font-bold text-slate-800 mb-1 leading-snug text-sm">${cert.title}</h4>
-                    <p class="text-sm text-slate-500 mb-1">${cert.issuer}</p>
+                    <p class="text-xs text-slate-500 mb-1">${cert.issuer}</p>
                     <p class="text-xs text-slate-400"><i class="fas fa-calendar-alt mr-1"></i>${cert.date}</p>
                 </div>
                 <a href="${cert.link}" target="_blank" rel="noopener noreferrer"
-                   class="text-slate-300 hover:text-blue-600 transition-colors flex-shrink-0 mt-1"
-                   title="Lihat Sertifikat (buka tab baru)">
-                    <i class="fas fa-external-link-alt"></i>
+                   class="flex-shrink-0 mt-1 w-8 h-8 rounded-lg flex items-center justify-center transition"
+                   style="color:#a5b4fc;" onmouseover="this.style.background='rgba(99,102,241,0.12)'" onmouseout="this.style.background='transparent'"
+                   title="Lihat Sertifikat">
+                    <i class="fas fa-external-link-alt text-xs"></i>
                 </a>
             </div>`;
     }
@@ -597,11 +626,11 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const btn = form.querySelector('button[type="submit"]');
             btn.innerHTML = '<i class="fas fa-check"></i> Pesan Terkirim!';
-            btn.classList.replace('bg-blue-600', 'bg-green-500');
+            btn.style.background = 'linear-gradient(135deg,#10b981,#06b6d4)';
             btn.disabled = true;
             setTimeout(() => {
                 btn.innerHTML = '<i class="fas fa-paper-plane"></i> <span data-t="form_send">Kirim Pesan</span>';
-                btn.classList.replace('bg-green-500', 'bg-blue-600');
+                btn.style.background = '';
                 btn.disabled = false;
                 form.reset();
             }, 3000);

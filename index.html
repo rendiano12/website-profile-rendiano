@@ -18,42 +18,135 @@
             background-color: #f8fafc;
         }
 
-        /* Navbar solid — no backdrop-filter */
+        /* ── Navbar ── */
         .navbar-solid {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid #e2e8f0;
         }
 
-        /* Stats bar solid */
-        .stats-bar {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
+        /* ── Section backgrounds ── */
+        .section-alt {
+            background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
         }
 
+        .section-dark {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        }
+
+        .section-warm {
+            background: linear-gradient(135deg, #fff7ed 0%, #fdf2f8 100%);
+        }
+
+        .section-teal {
+            background: linear-gradient(135deg, #ecfdf5 0%, #eff6ff 100%);
+        }
+
+        /* ── Hero background blobs (CSS only, GPU composited) ── */
+        #home::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -200px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        #home::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            left: -100px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.10) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* ── Floating hero image ── */
+        @keyframes floatY {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .hero-img-float {
+            animation: floatY 5s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        /* ── Profile ring decoration ── */
+        .profile-ring {
+            position: absolute;
+            inset: -12px;
+            border-radius: 32px;
+            background: linear-gradient(135deg, #6366f1, #3b82f6, #8b5cf6);
+            z-index: -1;
+            opacity: 0.25;
+        }
+
+        /* ── Profile image frame ── */
+        .profile-frame {
+            border: 4px solid transparent;
+            background: linear-gradient(#fff, #fff) padding-box,
+                linear-gradient(135deg, #6366f1, #3b82f6) border-box;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(99, 102, 241, 0.18);
+        }
+
+        /* ── Skill bar ── */
         .skill-bar {
-            transition: width 1s ease;
+            transition: width 1.1s cubic-bezier(.4, 0, .2, 1);
         }
 
+        /* ── Section label ── */
         .section-label {
             letter-spacing: 0.3em;
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            color: #2563eb;
+            background: linear-gradient(90deg, #6366f1, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* Lightweight hover — only box-shadow, no transform */
-
-        /* Hero accent — static, no animation */
-        .hero-accent {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
-            border-radius: 30px;
-            z-index: 0;
+        /* ── Heading accent bar ── */
+        .heading-accent {
+            display: inline-block;
+            width: 40px;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #3b82f6);
+            border-radius: 2px;
+            margin-bottom: 12px;
+            transition: width 0.5s ease;
         }
 
-        /* Mobile menu */
+        .heading-accent.grown {
+            width: 64px;
+        }
+
+        /* ── Gradient heading text ── */
+        .grad-text {
+            background: linear-gradient(135deg, #1e293b 0%, #3b4fd8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── Mobile menu ── */
         #mobile-menu {
             display: none;
         }
@@ -62,34 +155,11 @@
             display: block;
         }
 
-        /* Section alternating bg */
-        .section-alt {
-            background-color: #f1f5f9;
-        }
-
-        /* Profile image frame — static, no animation */
-        .profile-frame {
-            border: 4px solid #e2e8f0;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-        }
-
-        /* Accent bar on section headings */
-        .heading-accent {
-            display: inline-block;
-            width: 40px;
-            height: 4px;
-            background: #2563eb;
-            border-radius: 2px;
-            margin-bottom: 12px;
-        }
-
-        /* ── Scroll-reveal: elemen mulai tersembunyi ── */
+        /* ── Scroll-reveal ── */
         .reveal {
             opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(28px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
             will-change: opacity, transform;
         }
 
@@ -98,32 +168,31 @@
             transform: translateY(0);
         }
 
-        /* Stagger delay untuk grid items */
         .reveal-delay-1 {
             transition-delay: 0.08s;
         }
 
         .reveal-delay-2 {
-            transition-delay: 0.16s;
+            transition-delay: 0.17s;
         }
 
         .reveal-delay-3 {
-            transition-delay: 0.24s;
+            transition-delay: 0.26s;
         }
 
-        /* ── Hero: fade-in saat halaman load ── */
+        /* ── Hero fade-in ── */
         .hero-text {
-            animation: heroFadeIn 0.7s ease both;
+            animation: heroFadeIn 0.75s ease both;
         }
 
         .hero-img {
-            animation: heroFadeIn 0.7s 0.2s ease both;
+            animation: heroFadeIn 0.75s 0.2s ease both;
         }
 
         @keyframes heroFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(22px);
             }
 
             to {
@@ -132,7 +201,7 @@
             }
         }
 
-        /* ── Navbar: underline slide pada link aktif ── */
+        /* ── Navbar link underline ── */
         .nav-link {
             position: relative;
         }
@@ -144,70 +213,105 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #2563eb;
+            background: linear-gradient(90deg, #6366f1, #3b82f6);
             border-radius: 1px;
-            transition: width 0.25s ease;
+            transition: width .25s ease;
         }
 
         .nav-link:hover::after {
             width: 100%;
         }
 
-        /* ── Card hover: lift ringan ── */
+        /* ── Card hover ── */
         .card-hover {
-            transition: box-shadow 0.25s ease, transform 0.25s ease;
+            transition: box-shadow .25s ease, transform .25s ease;
             will-change: transform;
         }
 
         .card-hover:hover {
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.09);
-            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(99, 102, 241, 0.13);
+            transform: translateY(-5px);
         }
 
-        /* ── Tombol: scale ringan ── */
+        /* ── Colored top-border cards ── */
+        .card-accent-top {
+            border-top: 3px solid transparent;
+            background-image: linear-gradient(white, white),
+                linear-gradient(90deg, #6366f1, #3b82f6);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+
+        /* ── Buttons ── */
         .btn-anim {
-            transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            transition: background-color .2s ease, transform .15s ease, box-shadow .2s ease;
             will-change: transform;
         }
 
         .btn-anim:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+            box-shadow: 0 8px 22px rgba(99, 102, 241, 0.30);
         }
 
         .btn-anim:active {
             transform: translateY(0);
         }
 
-        /* ── Social icon: scale ── */
+        /* ── Primary gradient button ── */
+        .btn-grad {
+            background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+            color: #fff;
+            transition: filter .2s ease, transform .15s ease, box-shadow .2s ease;
+            will-change: transform;
+        }
+
+        .btn-grad:hover {
+            filter: brightness(1.08);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+        }
+
+        /* ── Social icons ── */
         .social-icon {
-            transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+            transition: background-color .2s ease, color .2s ease, transform .2s ease;
             will-change: transform;
         }
 
         .social-icon:hover {
-            transform: scale(1.15);
+            transform: scale(1.18);
         }
 
-        /* ── Heading accent: grow on section enter ── */
-        .heading-accent {
-            transition: width 0.5s ease;
-        }
-
-        .heading-accent.grown {
-            width: 56px;
-        }
-
-        /* ── Skill tag: hover pop ── */
+        /* ── Skill tags ── */
         .skill-tag {
-            transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+            transition: border-color .2s ease, color .2s ease, transform .2s ease, background .2s ease;
             will-change: transform;
         }
 
         .skill-tag:hover {
-            transform: scale(1.05);
-            border-color: #93c5fd;
-            color: #2563eb;
+            transform: scale(1.06);
+            border-color: #a5b4fc;
+            color: #4f46e5;
+            background: #eef2ff;
+        }
+
+        /* ── Stats card gradient icons ── */
+        .stat-icon {
+            background: linear-gradient(135deg, #6366f1, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── Stats bar ── */
+        .stats-card {
+            background: linear-gradient(135deg, #1e293b 0%, #312e81 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(49, 46, 129, 0.22);
+        }
+
+        /* ── Timeline line ── */
+        .timeline-line {
+            background: linear-gradient(180deg, #6366f1, #3b82f6, #8b5cf6);
         }
 
         /* ── Certificate Slider ── */
@@ -228,13 +332,77 @@
             height: 8px;
             border-radius: 9999px;
             background: #cbd5e1;
-            transition: background 0.2s ease, width 0.2s ease;
+            transition: background .2s ease, width .2s ease;
             cursor: pointer;
         }
 
         .cert-dot.active {
-            background: #2563eb;
-            width: 24px;
+            background: #6366f1;
+            width: 26px;
+        }
+
+        /* ── Contact dark section form ── */
+        .contact-input {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+            border-radius: 12px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .contact-input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .contact-input:focus {
+            outline: none;
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+
+        /* ── Floating badge on hero ── */
+        @keyframes badgePop {
+            0% {
+                transform: scale(0.8) translateY(10px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .badge-pop {
+            animation: badgePop .6s .8s ease both;
+        }
+
+        /* ── Shimmer on skill bars ── */
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .skill-bar-gradient {
+            background: linear-gradient(90deg,
+                    #6366f1 0%, #818cf8 40%, #3b82f6 60%, #6366f1 100%);
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+        }
+
+        /* ── Section wave divider ── */
+        .wave-top {
+            margin-top: -1px;
+            line-height: 0;
+        }
+
+        .wave-top svg {
+            display: block;
         }
     </style>
 </head>
@@ -323,16 +491,28 @@
     </nav>
 
     <!-- ===== 1. PROFIL / HOME ===== -->
-    <section id="home" class="relative min-h-screen flex items-center px-6 pt-24 overflow-hidden bg-white">
+    <section id="home" class="relative min-h-screen flex items-center px-6 pt-24 overflow-hidden"
+        style="background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 50%, #fff7ed 100%);">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center w-full">
             <div class="hero-text">
+                <!-- Label pill -->
+                <span
+                    class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-5 border"
+                    style="background:rgba(99,102,241,0.08); border-color:rgba(99,102,241,0.2); color:#4f46e5;">
+                    <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse inline-block"></span>
+                    Fresh Graduate · Teknik Informatika
+                </span>
+
                 <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-6">
                     Mewujudkan pengalaman digital terbaik<br>
-                    <span class="text-blue-600">lewat teknologi canggih dan desain elegan.</span>
+                    <span
+                        style="background:linear-gradient(135deg,#6366f1,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                        lewat teknologi canggih<br>dan desain elegan.
+                    </span>
                 </h1>
                 <p class="text-lg text-slate-600 mb-4 leading-relaxed">
-                    <span class="font-bold text-slate-800">Rendiano Pramuditya Ardhi</span> &mdash; Fresh Graduate
-                    Teknik Informatika &bull; Purwokerto, Jawa Tengah
+                    <span class="font-bold text-slate-800">Rendiano Pramuditya Ardhi</span> &mdash;
+                    Purwokerto, Jawa Tengah
                 </p>
                 <p class="text-slate-500 mb-8 italic leading-relaxed max-w-lg">
                     "Fresh Graduate Sarjana Teknik Informatika dari Universitas Muhammadiyah Purwokerto dengan
@@ -340,35 +520,39 @@
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="#projects"
-                        class="bg-blue-600 text-white px-8 py-4 rounded-xl shadow-md hover:bg-blue-700 btn-anim flex items-center gap-2">
+                        class="btn-grad px-8 py-4 rounded-xl shadow-lg btn-anim flex items-center gap-2 font-bold">
                         <span data-t="btn_projects">Lihat Proyek</span> <i class="fas fa-arrow-right"></i>
                     </a>
                     <a href="#cv"
-                        class="border-2 border-slate-300 text-slate-700 px-8 py-4 rounded-xl hover:border-blue-600 hover:text-blue-600 btn-anim flex items-center gap-2">
-                        <i class="fas fa-download"></i> <span data-t="btn_cv">Unduh CV</span>
+                        class="border-2 text-slate-700 px-8 py-4 rounded-xl btn-anim flex items-center gap-2 font-bold bg-white/70"
+                        style="border-color:rgba(99,102,241,0.35);">
+                        <i class="fas fa-download text-indigo-500"></i> <span data-t="btn_cv">Unduh CV</span>
                     </a>
                 </div>
 
                 <!-- Social Links -->
                 <div class="flex gap-4 mt-8">
                     <a href="#"
-                        class="social-icon w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-blue-600 hover:text-white text-slate-600">
+                        class="social-icon w-11 h-11 rounded-full flex items-center justify-center text-slate-600 border border-slate-200 bg-white hover:border-indigo-500 hover:text-indigo-600 shadow-sm">
                         <i class="fab fa-github"></i>
                     </a>
                     <a href="https://linkedin.com/in/rendiano-pramuditya-ardhi/" target="_blank"
-                        class="social-icon w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-blue-600 hover:text-white text-slate-600">
+                        class="social-icon w-11 h-11 rounded-full flex items-center justify-center text-slate-600 border border-slate-200 bg-white hover:border-blue-500 hover:text-blue-600 shadow-sm">
                         <i class="fab fa-linkedin"></i>
                     </a>
                     <a href="https://www.instagram.com/rendiano.ardhi/"
-                        class="social-icon w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-blue-600 hover:text-white text-slate-600">
+                        class="social-icon w-11 h-11 rounded-full flex items-center justify-center text-slate-600 border border-slate-200 bg-white hover:border-pink-500 hover:text-pink-500 shadow-sm">
                         <i class="fab fa-instagram"></i>
                     </a>
                 </div><br>
             </div>
 
             <div class="hero-img relative flex justify-center">
-                <div class="relative w-72 h-72 md:w-[380px] md:h-[380px]">
-                    <div class="profile-frame w-full h-full bg-slate-100 flex items-center justify-center">
+                <!-- Decorative ring -->
+                <div class="hero-img-float relative w-72 h-72 md:w-[380px] md:h-[380px]">
+                    <div class="profile-ring"></div>
+                    <div
+                        class="profile-frame w-full h-full bg-slate-100 flex items-center justify-center relative z-10">
                         <img src="assets/img/foto-profil.jpg" alt="Rendiano Pramuditya Ardhi"
                             class="w-full h-full object-cover"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
@@ -377,46 +561,84 @@
                             <span class="text-sm">Foto Profil</span>
                         </div>
                     </div>
+                    <!-- Floating badge -->
+                    <div
+                        class="badge-pop absolute -bottom-4 -left-4 bg-white rounded-2xl px-4 py-3 shadow-xl border border-indigo-100 flex items-center gap-2 z-20">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm"
+                            style="background:linear-gradient(135deg,#6366f1,#3b82f6);">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-800 leading-none">IPK 3.57</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">Cumlaude</p>
+                        </div>
+                    </div>
+                    <div class="badge-pop absolute -top-4 -right-4 bg-white rounded-2xl px-4 py-3 shadow-xl border border-purple-100 flex items-center gap-2 z-20"
+                        style="animation-delay:1s;">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm"
+                            style="background:linear-gradient(135deg,#8b5cf6,#6366f1);">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-800 leading-none">24 Sertifikat</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">& Penghargaan</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Stats Bar -->
-    <section class="py-12 px-6 section-alt">
-        <div
-            class="reveal max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 bg-white p-10 rounded-2xl shadow-sm border border-slate-200">
-            <div class="text-center">
-                <h3 class="text-4xl font-extrabold text-blue-600 mb-2">3.57</h3>
-                <p class="text-sm text-slate-500 uppercase tracking-tighter italic" data-t="stat_gpa">IPK Cumlaude</p>
+    <section class="py-14 px-6" style="background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);">
+        <div class="reveal max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-0 stats-card overflow-hidden">
+            <div class="text-center py-10 px-6 border-r border-white/10">
+                <div class="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl"
+                    style="background:rgba(99,102,241,0.2); color:#a5b4fc;">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3 class="text-4xl font-extrabold text-white mb-1">3.57</h3>
+                <p class="text-xs text-indigo-300 uppercase tracking-widest font-bold" data-t="stat_gpa">IPK Cumlaude
+                </p>
             </div>
-            <div class="text-center border-l border-slate-200">
-                <h3 class="text-4xl font-extrabold text-blue-600 mb-2">18+</h3>
-                <p class="text-sm text-slate-500 uppercase tracking-tighter italic" data-t="stat_tech">Teknologi
+            <div class="text-center py-10 px-6 border-r border-white/10">
+                <div class="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl"
+                    style="background:rgba(59,130,246,0.2); color:#93c5fd;">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="text-4xl font-extrabold text-white mb-1">18+</h3>
+                <p class="text-xs text-blue-300 uppercase tracking-widest font-bold" data-t="stat_tech">Teknologi
                     Dikuasai</p>
             </div>
-            <div class="text-center border-l border-slate-200">
-                <h3 class="text-4xl font-extrabold text-blue-600 mb-2">4+</h3>
-                <p class="text-sm text-slate-500 uppercase tracking-tighter italic" data-t="stat_projects">Proyek
+            <div class="text-center py-10 px-6 border-r border-white/10">
+                <div class="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl"
+                    style="background:rgba(139,92,246,0.2); color:#c4b5fd;">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3 class="text-4xl font-extrabold text-white mb-1">4+</h3>
+                <p class="text-xs text-purple-300 uppercase tracking-widest font-bold" data-t="stat_projects">Proyek
                     Selesai</p>
             </div>
-            <div class="text-center border-l border-slate-200">
-                <h3 class="text-4xl font-extrabold text-blue-600 mb-2">23</h3>
-
-
-                <p class="text-sm text-slate-500 uppercase tracking-tighter italic" data-t="stat_cert">Sertifikat</p>
+            <div class="text-center py-10 px-6">
+                <div class="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl"
+                    style="background:rgba(236,72,153,0.2); color:#f9a8d4;">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <h3 class="text-4xl font-extrabold text-white mb-1">24</h3>
+                <p class="text-xs text-pink-300 uppercase tracking-widest font-bold" data-t="stat_cert">Sertifikat</p>
             </div>
         </div>
     </section>
 
     <!-- ===== 2. PROJECTS ===== -->
-    <section id="projects" class="py-24 px-6 bg-white">
+    <section id="projects" class="py-24 px-6"
+        style="background:linear-gradient(135deg,#f0f4ff 0%,#ffffff 60%,#faf5ff 100%);">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
                 <div>
                     <div class="heading-accent"></div>
                     <p class="section-label mb-2" data-t="projects_label">PORTFOLIO</p>
-                    <h2 class="text-4xl font-extrabold text-slate-800" data-t="projects_title">Pengalaman Projek</h2>
+                    <h2 class="text-4xl font-extrabold grad-text" data-t="projects_title">Pengalaman Projek</h2>
                 </div>
             </div>
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
@@ -429,19 +651,29 @@
             <div class="text-center mb-16">
                 <div class="heading-accent mx-auto"></div>
                 <p class="section-label mb-2" data-t="skills_label">KOMPETENSI</p>
-                <h2 class="text-4xl font-extrabold text-slate-800" data-t="skills_title">Keahlian Teknis</h2>
+                <h2 class="text-4xl font-extrabold grad-text" data-t="skills_title">Keahlian Teknis</h2>
             </div>
 
             <div class="grid md:grid-cols-2 gap-16">
                 <!-- Technical Skills -->
-                <div>
-                    <h3 class="text-xl font-bold mb-8 text-slate-700" data-t="skills_tech">Teknologi & Framework</h3>
+                <div class="bg-white/70 backdrop-blur rounded-2xl p-8 shadow-sm border border-indigo-100">
+                    <h3 class="text-xl font-bold mb-8 text-slate-700 flex items-center gap-3" data-t="skills_tech">
+                        <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm"
+                            style="background:linear-gradient(135deg,#6366f1,#3b82f6);"><i
+                                class="fas fa-layer-group"></i></span>
+                        Teknologi & Framework
+                    </h3>
                     <div class="space-y-5" id="skill-bars"></div>
                 </div>
 
                 <!-- Soft Skills & Tools -->
-                <div>
-                    <h3 class="text-xl font-bold mb-8 text-slate-700" data-t="skills_tools">Tools & Soft Skills</h3>
+                <div class="bg-white/70 backdrop-blur rounded-2xl p-8 shadow-sm border border-purple-100">
+                    <h3 class="text-xl font-bold mb-8 text-slate-700 flex items-center gap-3" data-t="skills_tools">
+                        <span class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm"
+                            style="background:linear-gradient(135deg,#8b5cf6,#6366f1);"><i
+                                class="fas fa-tools"></i></span>
+                        Tools & Soft Skills
+                    </h3>
                     <div class="flex flex-wrap gap-3" id="skill-tags"></div>
                 </div>
             </div>
@@ -449,36 +681,36 @@
     </section>
 
     <!-- ===== 4. PENGALAMAN ===== -->
-    <section id="experience" class="py-24 px-6 bg-white">
+    <section id="experience" class="py-24 px-6" style="background:linear-gradient(135deg,#ffffff 0%,#f0f4ff 100%);">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-16">
                 <div class="heading-accent mx-auto"></div>
                 <p class="section-label mb-2" data-t="exp_label">KARIR</p>
-                <h2 class="text-4xl font-extrabold text-slate-800" data-t="exp_title">Pengalaman Kerja</h2>
+                <h2 class="text-4xl font-extrabold grad-text" data-t="exp_title">Pengalaman Kerja</h2>
             </div>
             <div id="experience-container" class="relative"></div>
         </div>
     </section>
 
     <!-- ===== 5. PENDIDIKAN ===== -->
-    <section id="education" class="py-24 px-6 section-alt">
+    <section id="education" class="py-24 px-6 section-teal">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-16">
                 <div class="heading-accent mx-auto"></div>
                 <p class="section-label mb-2" data-t="edu_label">AKADEMIK</p>
-                <h2 class="text-4xl font-extrabold text-slate-800" data-t="edu_title">Riwayat Pendidikan</h2>
+                <h2 class="text-4xl font-extrabold grad-text" data-t="edu_title">Riwayat Pendidikan</h2>
             </div>
             <div id="education-container" class="space-y-8"></div>
         </div>
     </section>
 
     <!-- ===== 6. SERTIFIKAT ===== -->
-    <section id="certificates" class="py-24 px-6 bg-white">
+    <section id="certificates" class="py-24 px-6" style="background:linear-gradient(135deg,#faf5ff 0%,#eff6ff 100%);">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
                 <div class="heading-accent mx-auto"></div>
                 <p class="section-label mb-2" data-t="cert_label">PENCAPAIAN</p>
-                <h2 class="text-4xl font-extrabold text-slate-800" data-t="cert_title">Sertifikat & Penghargaan</h2>
+                <h2 class="text-4xl font-extrabold grad-text" data-t="cert_title">Sertifikat & Penghargaan</h2>
             </div>
 
             <!-- Slider wrapper -->
@@ -490,12 +722,12 @@
 
                 <!-- Prev / Next buttons -->
                 <button id="cert-prev"
-                    class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-11 h-11 bg-white border border-slate-200 rounded-full shadow-md flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition z-10 disabled:opacity-30 disabled:cursor-not-allowed"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-11 h-11 bg-white border border-indigo-100 rounded-full shadow-md flex items-center justify-center text-indigo-500 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition z-10 disabled:opacity-30 disabled:cursor-not-allowed"
                     aria-label="Sebelumnya">
                     <i class="fas fa-chevron-left"></i>
                 </button>
                 <button id="cert-next"
-                    class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-11 h-11 bg-white border border-slate-200 rounded-full shadow-md flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition z-10 disabled:opacity-30 disabled:cursor-not-allowed"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-11 h-11 bg-white border border-indigo-100 rounded-full shadow-md flex items-center justify-center text-indigo-500 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition z-10 disabled:opacity-30 disabled:cursor-not-allowed"
                     aria-label="Berikutnya">
                     <i class="fas fa-chevron-right"></i>
                 </button>
@@ -504,94 +736,96 @@
             <!-- Dot indicators + page info -->
             <div class="flex flex-col items-center gap-4 mt-8">
                 <div id="cert-dots" class="flex gap-2"></div>
-                <p id="cert-page-info" class="text-xs text-slate-400 font-semibold tracking-wide"></p>
+                <p id="cert-page-info" class="text-xs text-indigo-400 font-semibold tracking-wide"></p>
             </div>
         </div>
     </section>
 
     <!-- ===== 7. KONTAK ===== -->
-    <section id="contact" class="py-24 px-6 section-alt">
+    <section id="contact" class="py-24 px-6 section-dark">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
-                <div class="heading-accent mx-auto"></div>
-                <p class="section-label mb-2" data-t="contact_label">HUBUNGI SAYA</p>
-                <h2 class="text-4xl font-extrabold text-slate-800" data-t="contact_title">Mari Berkolaborasi</h2>
-                <p class="text-slate-500 mt-4 max-w-lg mx-auto" data-t="contact_desc">Punya proyek menarik atau ingin
+                <div class="heading-accent mx-auto" style="background:linear-gradient(90deg,#818cf8,#60a5fa);"></div>
+                <p class="text-xs font-bold uppercase tracking-widest mb-2"
+                    style="background:linear-gradient(90deg,#818cf8,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"
+                    data-t="contact_label">HUBUNGI SAYA</p>
+                <h2 class="text-4xl font-extrabold text-white" data-t="contact_title">Mari Berkolaborasi</h2>
+                <p class="text-slate-400 mt-4 max-w-lg mx-auto" data-t="contact_desc">Punya proyek menarik atau ingin
                     berdiskusi? Saya selalu terbuka untuk peluang baru.</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-12 items-start">
                 <!-- Contact Info -->
-                <div class="space-y-6">
-                    <div
-                        class="flex items-center gap-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200 card-hover">
-                        <div
-                            class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-xl flex-shrink-0">
+                <div class="space-y-5">
+                    <div class="flex items-center gap-4 p-5 rounded-2xl card-hover"
+                        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+                            style="background:rgba(99,102,241,0.25); color:#a5b4fc;">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div>
                             <p class="text-xs text-slate-400 uppercase tracking-widest mb-1"
                                 data-t="contact_email_label">Email</p>
                             <a href="mailto:rendiano712@gmail.com"
-                                class="font-bold text-slate-800 hover:text-blue-600 transition-colors">rendiano712@gmail.com</a>
+                                class="font-bold text-white hover:text-indigo-300 transition-colors">rendiano712@gmail.com</a>
                         </div>
                     </div>
-                    <div
-                        class="flex items-center gap-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200 card-hover">
-                        <div
-                            class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-700 text-xl flex-shrink-0">
+                    <div class="flex items-center gap-4 p-5 rounded-2xl card-hover"
+                        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+                            style="background:rgba(59,130,246,0.25); color:#93c5fd;">
                             <i class="fab fa-linkedin"></i>
                         </div>
                         <div>
                             <p class="text-xs text-slate-400 uppercase tracking-widest mb-1">LinkedIn</p>
                             <a href="https://linkedin.com/in/rendiano-pramuditya-ardhi/" target="_blank"
-                                class="font-bold text-slate-800 hover:text-blue-700 transition-colors">linkedin.com/in/rendiano-pramuditya-ardhi</a>
+                                class="font-bold text-white hover:text-blue-300 transition-colors text-sm">linkedin.com/in/rendiano-pramuditya-ardhi</a>
                         </div>
                     </div>
-                    <div
-                        class="flex items-center gap-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200 card-hover">
-                        <div
-                            class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-slate-700 text-xl flex-shrink-0">
+                    <div class="flex items-center gap-4 p-5 rounded-2xl card-hover"
+                        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+                            style="background:rgba(255,255,255,0.12); color:#e2e8f0;">
                             <i class="fab fa-github"></i>
                         </div>
                         <div>
                             <p class="text-xs text-slate-400 uppercase tracking-widest mb-1">GitHub</p>
                             <a href="https://github.com/rendiano12"
-                                class="font-bold text-slate-800 hover:text-slate-600 transition-colors">github.com/rendiano12</a>
+                                class="font-bold text-white hover:text-slate-300 transition-colors">github.com/rendiano12</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Contact Form -->
                 <div>
-                    <form id="contact-form"
-                        class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 space-y-5">
+                    <form id="contact-form" class="rounded-2xl p-8 space-y-5"
+                        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);">
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2"
+                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
                                 data-t="form_name">Nama</label>
                             <input type="text" placeholder="Nama lengkap Anda" required
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition text-sm">
+                                class="contact-input w-full px-4 py-3 text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2"
+                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
                                 data-t="form_email">Email</label>
                             <input type="email" placeholder="email@contoh.com" required
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition text-sm">
+                                class="contact-input w-full px-4 py-3 text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2"
+                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
                                 data-t="form_subject">Subjek</label>
                             <input type="text" placeholder="Topik pesan Anda"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition text-sm">
+                                class="contact-input w-full px-4 py-3 text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2"
+                            <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
                                 data-t="form_message">Pesan</label>
                             <textarea rows="4" placeholder="Tulis pesan Anda di sini..." required
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition text-sm resize-none"></textarea>
+                                class="contact-input w-full px-4 py-3 text-sm resize-none"></textarea>
                         </div>
                         <button type="submit"
-                            class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                            class="w-full btn-grad py-4 rounded-xl font-bold btn-anim flex items-center justify-center gap-2">
                             <i class="fas fa-paper-plane"></i> <span data-t="form_send">Kirim Pesan</span>
                         </button>
                     </form>
@@ -601,25 +835,27 @@
     </section>
 
     <!-- ===== 8. CV ===== -->
-    <section id="cv" class="py-24 px-6 bg-white">
+    <section id="cv" class="py-24 px-6 section-warm">
         <div class="max-w-3xl mx-auto text-center">
             <div class="heading-accent mx-auto"></div>
             <p class="section-label mb-2" data-t="cv_label">CURRICULUM VITAE</p>
-            <h2 class="text-4xl font-extrabold text-slate-800 mb-4" data-t="cv_title">Unduh CV Saya</h2>
+            <h2 class="text-4xl font-extrabold grad-text mb-4" data-t="cv_title">Unduh CV Saya</h2>
             <p class="text-slate-500 mb-10 max-w-lg mx-auto" data-t="cv_desc">
                 Dapatkan versi lengkap profil profesional saya dalam format PDF yang siap digunakan.
             </p>
 
-            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-12">
-                <div class="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-md">
+            <div class="rounded-2xl p-12 border border-indigo-100 shadow-md"
+                style="background:linear-gradient(135deg,#ffffff 0%,#f0f4ff 100%);">
+                <div class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
+                    style="background:linear-gradient(135deg,#6366f1,#3b82f6);">
                     <i class="fas fa-file-pdf text-white text-3xl"></i>
                 </div>
-                <h3 class="text-2xl font-bold mb-2">Rendiano Pramuditya Ardhi</h3>
+                <h3 class="text-2xl font-bold mb-2 text-slate-800">Rendiano Pramuditya Ardhi</h3>
                 <p class="text-slate-500 mb-8 italic" data-t="cv_subtitle">Fresh Graduate — Teknik Informatika</p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <a href="assets/docs/CV Rendiano.pdf" download="CV Rendiano Pramuditya Ardhi.pdf"
-                        class="bg-blue-600 text-white px-8 py-4 rounded-xl shadow-md hover:bg-blue-700 btn-anim flex items-center justify-center gap-3">
+                        class="btn-grad px-8 py-4 rounded-xl shadow-lg btn-anim flex items-center justify-center gap-3 font-bold">
                         <i class="fas fa-download"></i>
                         <span data-t="cv_download">Unduh CV (PDF)</span>
                     </a>
@@ -631,8 +867,21 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 px-6 border-t border-slate-200 text-center text-sm text-slate-400">
-        <p>&copy; 2026 <span class="font-bold text-slate-600">Rendiano Pramuditya Ardhi</span></p>
+    <footer class="py-10 px-6 text-center text-sm" style="background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);">
+        <div class="flex justify-center gap-4 mb-4">
+            <a href="#"
+                class="social-icon w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-white"
+                style="background:rgba(255,255,255,0.07);"><i class="fab fa-github text-sm"></i></a>
+            <a href="https://linkedin.com/in/rendiano-pramuditya-ardhi/" target="_blank"
+                class="social-icon w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-blue-300"
+                style="background:rgba(255,255,255,0.07);"><i class="fab fa-linkedin text-sm"></i></a>
+            <a href="https://www.instagram.com/rendiano.ardhi/"
+                class="social-icon w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-pink-300"
+                style="background:rgba(255,255,255,0.07);"><i class="fab fa-instagram text-sm"></i></a>
+        </div>
+        <p class="text-slate-500">&copy; 2026 <span class="font-bold text-slate-300">Rendiano Pramuditya Ardhi</span>
+        </p>
+        <p class="text-slate-600 text-xs mt-1">Digital Artisan · Teknik Informatika</p>
     </footer>
 
     <script src="assets/js/translation.js"></script>
