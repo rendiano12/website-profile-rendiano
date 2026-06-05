@@ -428,25 +428,105 @@ function renderEducation() {
 }
 
 function renderCertificates() {
-    const container = document.getElementById('certificates-container');
-    if (!container) return;
+    const track = document.getElementById('cert-track');
+    const dotsEl = document.getElementById('cert-dots');
+    const pageInfo = document.getElementById('cert-page-info');
+    const prevBtn = document.getElementById('cert-prev');
+    const nextBtn = document.getElementById('cert-next');
+    if (!track || !dotsEl) return;
 
-    container.innerHTML = certificates.map((cert, i) => `
-        <div class="reveal reveal-delay-${(i % 3) + 1} bg-white rounded-xl p-6 shadow-sm border border-slate-200 card-hover flex gap-4 items-start">
-            <div class="w-12 h-12 ${cert.color} rounded-xl flex items-center justify-center text-xl flex-shrink-0">
-                <i class="${cert.icon}"></i>
-            </div>
-            <div class="flex-1">
-                <h4 class="font-bold text-slate-800 mb-1 leading-snug">${cert.title}</h4>
-                <p class="text-sm text-slate-500 mb-1">${cert.issuer}</p>
-                <p class="text-xs text-slate-400"><i class="fas fa-calendar-alt mr-1"></i>${cert.date}</p>
-            </div>
-            <a href="${cert.link}" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-blue-600 transition-colors flex-shrink-0 mt-1" title="Lihat Sertifikat (buka tab baru)">
-                <i class="fas fa-external-link-alt"></i>
-            </a>
-        </div>
-    `).join('');
-    container.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    const PER_SLIDE = 9;
+    const totalSlides = Math.ceil(certificates.length / PER_SLIDE);
+    let current = 0;
+
+    // Build card HTML
+    function certCard(cert, delay) {
+        return `
+            <div class="reveal reveal-delay-${delay} bg-white rounded-xl p-5 shadow-sm border border-slate-200 card-hover flex gap-4 items-start">
+                <div class="w-12 h-12 ${cert.color} rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                    <i class="${cert.icon}"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h4 class="font-bold text-slate-800 mb-1 leading-snug text-sm">${cert.title}</h4>
+                    <p class="text-sm text-slate-500 mb-1">${cert.issuer}</p>
+                    <p class="text-xs text-slate-400"><i class="fas fa-calendar-alt mr-1"></i>${cert.date}</p>
+                </div>
+                <a href="${cert.link}" target="_blank" rel="noopener noreferrer"
+                   class="text-slate-300 hover:text-blue-600 transition-colors flex-shrink-0 mt-1"
+                   title="Lihat Sertifikat (buka tab baru)">
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>`;
+    }
+
+    // Build slides
+    track.innerHTML = '';
+    for (let s = 0; s < totalSlides; s++) {
+        const slice = certificates.slice(s * PER_SLIDE, s * PER_SLIDE + PER_SLIDE);
+        const slide = document.createElement('div');
+        slide.className = 'cert-slide';
+        slide.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                ${slice.map((cert, i) => certCard(cert, (i % 3) + 1)).join('')}
+            </div>`;
+        track.appendChild(slide);
+    }
+
+    // Build dots
+    dotsEl.innerHTML = '';
+    for (let s = 0; s < totalSlides; s++) {
+        const dot = document.createElement('button');
+        dot.className = 'cert-dot' + (s === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Halaman ${s + 1}`);
+        dot.addEventListener('click', () => goTo(s));
+        dotsEl.appendChild(dot);
+    }
+
+    function updateUI() {
+        // Move track
+        track.style.transform = `translateX(-${current * 100}%)`;
+
+        // Dots
+        dotsEl.querySelectorAll('.cert-dot').forEach((d, i) => {
+            d.classList.toggle('active', i === current);
+        });
+
+        // Page info
+        const start = current * PER_SLIDE + 1;
+        const end = Math.min(start + PER_SLIDE - 1, certificates.length);
+        if (pageInfo) pageInfo.textContent = `${start}–${end} dari ${certificates.length} sertifikat`;
+
+        // Buttons
+        if (prevBtn) prevBtn.disabled = current === 0;
+        if (nextBtn) nextBtn.disabled = current === totalSlides - 1;
+
+        // Observe reveal elements in current slide
+        const currentSlide = track.children[current];
+        if (currentSlide) {
+            currentSlide.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        }
+    }
+
+    function goTo(index) {
+        current = Math.max(0, Math.min(index, totalSlides - 1));
+        updateUI();
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    // Keyboard navigation when section is focused
+    document.addEventListener('keydown', (e) => {
+        const section = document.getElementById('certificates');
+        if (!section) return;
+        const rect = section.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (!inView) return;
+        if (e.key === 'ArrowLeft') goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    updateUI();
 }
 
 // =============================================

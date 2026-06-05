@@ -209,6 +209,33 @@
             border-color: #93c5fd;
             color: #2563eb;
         }
+
+        /* ── Certificate Slider ── */
+        #cert-slider {
+            border-radius: 16px;
+        }
+
+        #cert-track {
+            will-change: transform;
+        }
+
+        .cert-slide {
+            min-width: 100%;
+        }
+
+        .cert-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            background: #cbd5e1;
+            transition: background 0.2s ease, width 0.2s ease;
+            cursor: pointer;
+        }
+
+        .cert-dot.active {
+            background: #2563eb;
+            width: 24px;
+        }
     </style>
 </head>
 
@@ -451,10 +478,34 @@
             <div class="text-center mb-16">
                 <div class="heading-accent mx-auto"></div>
                 <p class="section-label mb-2" data-t="cert_label">PENCAPAIAN</p>
-                <h2 class="text-4xl font-extrabold text-slate-800" data-t="cert_title">Sertifikat & Penghargaan
-                </h2>
+                <h2 class="text-4xl font-extrabold text-slate-800" data-t="cert_title">Sertifikat & Penghargaan</h2>
             </div>
-            <div id="certificates-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+            <!-- Slider wrapper -->
+            <div class="relative">
+                <!-- Slides -->
+                <div id="cert-slider" class="overflow-hidden">
+                    <div id="cert-track" class="flex transition-transform duration-500 ease-in-out"></div>
+                </div>
+
+                <!-- Prev / Next buttons -->
+                <button id="cert-prev"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-11 h-11 bg-white border border-slate-200 rounded-full shadow-md flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition z-10 disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Sebelumnya">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="cert-next"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-11 h-11 bg-white border border-slate-200 rounded-full shadow-md flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition z-10 disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Berikutnya">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Dot indicators + page info -->
+            <div class="flex flex-col items-center gap-4 mt-8">
+                <div id="cert-dots" class="flex gap-2"></div>
+                <p id="cert-page-info" class="text-xs text-slate-400 font-semibold tracking-wide"></p>
+            </div>
         </div>
     </section>
 
