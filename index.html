@@ -500,21 +500,22 @@
                     class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-5 border"
                     style="background:rgba(99,102,241,0.08); border-color:rgba(99,102,241,0.2); color:#4f46e5;">
                     <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse inline-block"></span>
-                    Fresh Graduate · Teknik Informatika
+                    <span data-t="hero_pill">Fresh Graduate · Teknik Informatika</span>
                 </span>
 
                 <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-6">
-                    Mewujudkan pengalaman digital terbaik<br>
+                    <span data-t="hero_h1a">Mewujudkan pengalaman digital terbaik</span><br>
                     <span
-                        style="background:linear-gradient(135deg,#6366f1,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
-                        lewat teknologi canggih<br>dan desain elegan.
+                        style="background:linear-gradient(135deg,#6366f1,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"
+                        data-t="hero_h1b">
+                        lewat teknologi canggih dan desain elegan.
                     </span>
                 </h1>
                 <p class="text-lg text-slate-600 mb-4 leading-relaxed">
                     <span class="font-bold text-slate-800">Rendiano Pramuditya Ardhi</span> &mdash;
-                    Purwokerto, Jawa Tengah
+                    <span data-t="hero_location">Purwokerto, Jawa Tengah</span>
                 </p>
-                <p class="text-slate-500 mb-8 italic leading-relaxed max-w-lg">
+                <p class="text-slate-500 mb-8 italic leading-relaxed max-w-lg" data-t="hero_quote">
                     "Fresh Graduate Sarjana Teknik Informatika dari Universitas Muhammadiyah Purwokerto dengan
                     pengalaman dalam pengembangan aplikasi berbasis web, Android, serta manajemen tim."
                 </p>
@@ -569,8 +570,9 @@
                             <i class="fas fa-star"></i>
                         </div>
                         <div>
-                            <p class="text-xs font-bold text-slate-800 leading-none">IPK 3.57</p>
-                            <p class="text-[10px] text-slate-400 mt-0.5">Cumlaude</p>
+                            <p class="text-xs font-bold text-slate-800 leading-none" data-t="hero_badge_gpa">IPK 3.57
+                            </p>
+                            <p class="text-[10px] text-slate-400 mt-0.5" data-t="hero_badge_gpa_sub">Cumlaude</p>
                         </div>
                     </div>
                     <div class="badge-pop absolute -top-4 -right-4 bg-white rounded-2xl px-4 py-3 shadow-xl border border-purple-100 flex items-center gap-2 z-20"
@@ -580,8 +582,9 @@
                             <i class="fas fa-certificate"></i>
                         </div>
                         <div>
-                            <p class="text-xs font-bold text-slate-800 leading-none">24 Sertifikat</p>
-                            <p class="text-[10px] text-slate-400 mt-0.5">& Penghargaan</p>
+                            <p class="text-xs font-bold text-slate-800 leading-none" data-t="hero_badge_cert">24
+                                Sertifikat</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5" data-t="hero_badge_cert_sub">& Penghargaan</p>
                         </div>
                     </div>
                 </div>
@@ -723,12 +726,12 @@
                 <!-- Prev / Next buttons -->
                 <button id="cert-prev"
                     class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-11 h-11 bg-white border border-indigo-100 rounded-full shadow-md flex items-center justify-center text-indigo-500 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition z-10 disabled:opacity-30 disabled:cursor-not-allowed"
-                    aria-label="Sebelumnya">
+                    data-aria="cert_prev" aria-label="Sebelumnya">
                     <i class="fas fa-chevron-left"></i>
                 </button>
                 <button id="cert-next"
                     class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-11 h-11 bg-white border border-indigo-100 rounded-full shadow-md flex items-center justify-center text-indigo-500 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition z-10 disabled:opacity-30 disabled:cursor-not-allowed"
-                    aria-label="Berikutnya">
+                    data-aria="cert_next" aria-label="Berikutnya">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
@@ -803,26 +806,26 @@
                         <div>
                             <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
                                 data-t="form_name">Nama</label>
-                            <input type="text" placeholder="Nama lengkap Anda" required
+                            <input type="text" data-ph="form_ph_name" placeholder="Nama lengkap Anda" required
                                 class="contact-input w-full px-4 py-3 text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
                                 data-t="form_email">Email</label>
-                            <input type="email" placeholder="email@contoh.com" required
+                            <input type="email" data-ph="form_ph_email" placeholder="email@contoh.com" required
                                 class="contact-input w-full px-4 py-3 text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
                                 data-t="form_subject">Subjek</label>
-                            <input type="text" placeholder="Topik pesan Anda"
+                            <input type="text" data-ph="form_ph_subject" placeholder="Topik pesan Anda"
                                 class="contact-input w-full px-4 py-3 text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
                                 data-t="form_message">Pesan</label>
-                            <textarea rows="4" placeholder="Tulis pesan Anda di sini..." required
-                                class="contact-input w-full px-4 py-3 text-sm resize-none"></textarea>
+                            <textarea rows="4" data-ph="form_ph_message" placeholder="Tulis pesan Anda di sini..."
+                                required class="contact-input w-full px-4 py-3 text-sm resize-none"></textarea>
                         </div>
                         <button type="submit"
                             class="w-full btn-grad py-4 rounded-xl font-bold btn-anim flex items-center justify-center gap-2">
@@ -850,7 +853,7 @@
                     style="background:linear-gradient(135deg,#6366f1,#3b82f6);">
                     <i class="fas fa-file-pdf text-white text-3xl"></i>
                 </div>
-                <h3 class="text-2xl font-bold mb-2 text-slate-800">Rendiano Pramuditya Ardhi</h3>
+                <h3 class="text-2xl font-bold mb-2 text-slate-800" data-t="cv_name">Rendiano Pramuditya Ardhi</h3>
                 <p class="text-slate-500 mb-8 italic" data-t="cv_subtitle">Fresh Graduate — Teknik Informatika</p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -881,7 +884,7 @@
         </div>
         <p class="text-slate-500">&copy; 2026 <span class="font-bold text-slate-300">Rendiano Pramuditya Ardhi</span>
         </p>
-        <p class="text-slate-600 text-xs mt-1">Digital Artisan · Teknik Informatika</p>
+        <p class="text-slate-600 text-xs mt-1" data-t="footer_tagline">Digital Artisan · Teknik Informatika</p>
     </footer>
 
     <script src="assets/js/translation.js"></script>
